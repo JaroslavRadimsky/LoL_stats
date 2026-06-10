@@ -32,13 +32,13 @@ PLATFORM_TO_REGION = {
 }
 
 MODE_QUEUES = {
-    "aram": [450],
-    "arena": [1700, 1710],
+    "aram": [2400],
+    "arena": [1750],
 }
 
 MODE_LABELS = {
-    "aram": "ARAM",
-    "arena": "Arena",
+    "aram": "ARAM: Mayhem",
+    "arena": "Arena 3v3",
 }
 
 
@@ -388,7 +388,7 @@ def fetch_live_data(config: dict[str, Any], api_key: str) -> dict[str, Any]:
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "title": config["title"],
-        "defaultMode": "aram",
+        "defaultMode": "arena",
         "filters": {
             "matchCount": config["match_count"],
             "modes": [
