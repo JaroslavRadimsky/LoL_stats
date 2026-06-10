@@ -1,0 +1,303 @@
+:root {
+  --bg: #09111f;
+  --bg-soft: rgba(10, 19, 35, 0.78);
+  --panel: rgba(15, 29, 52, 0.84);
+  --line: rgba(255, 255, 255, 0.1);
+  --text: #ecf3ff;
+  --muted: #9fb2d2;
+  --gold: #f5c768;
+  --cyan: #68d7ff;
+  --green: #67e49a;
+  --red: #ff8076;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "IBM Plex Sans", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(104, 215, 255, 0.2), transparent 28%),
+    radial-gradient(circle at top right, rgba(245, 199, 104, 0.18), transparent 24%),
+    linear-gradient(145deg, #060b14 0%, #0b1629 55%, #07111f 100%);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.page-shell {
+  width: min(1200px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 32px 0 56px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.8fr);
+  gap: 24px;
+  align-items: stretch;
+  margin-bottom: 24px;
+}
+
+.hero-copy,
+.hero-meta,
+.panel,
+.player-card {
+  border: 1px solid var(--line);
+  background: var(--bg-soft);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+}
+
+.hero-copy {
+  padding: 32px;
+  border-radius: 28px;
+}
+
+.hero-meta {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 28px;
+}
+
+.eyebrow,
+.meta-label,
+.panel-header p,
+.player-id,
+.champ-meta,
+.recent-meta {
+  color: var(--muted);
+}
+
+.eyebrow {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+h1 {
+  font-size: clamp(2.3rem, 4vw, 4.5rem);
+  line-height: 0.98;
+  margin: 10px 0 14px;
+}
+
+.hero-text {
+  max-width: 60ch;
+  line-height: 1.65;
+  color: #d7e6ff;
+}
+
+.meta-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+}
+
+.meta-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.35rem;
+}
+
+.layout {
+  display: grid;
+  gap: 24px;
+}
+
+.panel {
+  border-radius: 28px;
+  padding: 24px;
+}
+
+.spotlight {
+  overflow: hidden;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 18px;
+}
+
+.metrics,
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.metric-card,
+.stat-pill,
+.rank-card,
+.champ-row,
+.recent-row,
+.pair-card {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 18px;
+}
+
+.metric-card,
+.stat-pill,
+.rank-card,
+.pair-card {
+  padding: 14px 16px;
+}
+
+.metric-card strong,
+.stat-pill strong,
+.rank-card strong {
+  display: block;
+  font-size: 1.25rem;
+  margin-top: 6px;
+}
+
+.pairings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.player-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.player-card {
+  border-radius: 24px;
+  padding: 20px;
+}
+
+.player-head {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  border: 2px solid rgba(245, 199, 104, 0.45);
+  object-fit: cover;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.player-name {
+  font-size: 1.35rem;
+}
+
+.rank-row,
+.subsection {
+  margin-top: 16px;
+}
+
+.rank-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.champ-list,
+.recent-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.champ-row,
+.recent-row {
+  padding: 12px 14px;
+}
+
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--cyan), var(--gold));
+}
+
+.recent-result {
+  font-weight: 600;
+}
+
+.recent-result.win {
+  color: var(--green);
+}
+
+.recent-result.loss {
+  color: var(--red);
+}
+
+@media (max-width: 860px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-header {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-copy,
+  .hero-meta,
+  .panel,
+  .player-card {
+    animation: rise 520ms ease both;
+  }
+
+  .player-card {
+    animation-delay: 120ms;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

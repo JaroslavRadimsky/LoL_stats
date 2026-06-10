@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LoL Stats Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Riot API x GitHub Pages</p>
+          <h1 id="page-title">LoL Stats Dashboard</h1>
+          <p id="page-subtitle" class="hero-text">
+            Statický přehled pro tebe a partu. Data se generují Pythonem a web je jen čistý frontend.
+          </p>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-card">
+            <span class="meta-label">Poslední update</span>
+            <strong id="generated-at">...</strong>
+          </div>
+          <div class="meta-card">
+            <span class="meta-label">Sdílené zápasy</span>
+            <strong id="shared-matches">0</strong>
+          </div>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="panel spotlight">
+          <div class="panel-header">
+            <h2>Squad Snapshot</h2>
+            <p id="filter-summary">Načítám data...</p>
+          </div>
+          <div class="metrics" id="group-metrics"></div>
+          <div class="pairings" id="pairings"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Tracked Players</h2>
+            <p>Karty hráčů se souhrnem posledních zápasů a ranku.</p>
+          </div>
+          <div class="player-grid" id="player-grid"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="player-card-template">
+      <article class="player-card">
+        <div class="player-head">
+          <img class="avatar" alt="" />
+          <div>
+            <h3 class="player-name"></h3>
+            <p class="player-id"></p>
+          </div>
+        </div>
+
+        <div class="rank-row"></div>
+        <div class="summary-grid"></div>
+
+        <div class="subsection">
+          <h4>Top championi</h4>
+          <div class="champ-list"></div>
+        </div>
+
+        <div class="subsection">
+          <h4>Poslední hry</h4>
+          <div class="recent-list"></div>
+        </div>
+      </article>
+    </template>
+
+    <script src="./app.js" defer></script>
+  </body>
+  </html>

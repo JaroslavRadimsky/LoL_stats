@@ -1,0 +1,300 @@
+{
+  "generated_at": "2026-06-09T12:00:00+00:00",
+  "title": "Demo dashboard pro partu",
+  "filters": {
+    "matchCount": 20,
+    "queue": 440
+  },
+  "players": [
+    {
+      "id": "player-1",
+      "display_name": "Ja",
+      "riot_id": "MojeRiotJmeno#EUW",
+      "puuid": "demo-puuid-1",
+      "region": "euw1",
+      "summoner_level": 412,
+      "profile_icon_id": 29,
+      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.11.1/img/profileicon/29.png",
+      "ranked": {
+        "soloq": {
+          "tier": "PLATINUM",
+          "rank": "II",
+          "leaguePoints": 41,
+          "wins": 68,
+          "losses": 54,
+          "winRate": 55.74
+        },
+        "flex": {
+          "tier": "EMERALD",
+          "rank": "IV",
+          "leaguePoints": 13,
+          "wins": 44,
+          "losses": 31,
+          "winRate": 58.67
+        }
+      },
+      "summary": {
+        "matches": 20,
+        "wins": 12,
+        "winRate": 60,
+        "avgKills": 7.1,
+        "avgDeaths": 4.8,
+        "avgAssists": 9.4,
+        "avgKda": 3.46,
+        "avgCs": 186.2,
+        "avgGold": 13120,
+        "avgDamage": 24400,
+        "avgKillParticipation": 58.3
+      },
+      "top_champions": [
+        {
+          "name": "Ahri",
+          "games": 7,
+          "wins": 5,
+          "winRate": 71.43
+        },
+        {
+          "name": "Orianna",
+          "games": 5,
+          "wins": 3,
+          "winRate": 60
+        },
+        {
+          "name": "Taliyah",
+          "games": 4,
+          "wins": 3,
+          "winRate": 75
+        }
+      ],
+      "recent_matches": [
+        {
+          "matchId": "EUW1_1001",
+          "champion": "Ahri",
+          "queueId": 440,
+          "result": "Win",
+          "kills": 8,
+          "deaths": 2,
+          "assists": 11,
+          "kda": 9.5,
+          "cs": 201,
+          "gold": 14800,
+          "damage": 27300,
+          "killParticipation": 64.1,
+          "playedAt": "2026-06-08T20:14:00+00:00",
+          "durationSeconds": 1912
+        },
+        {
+          "matchId": "EUW1_1002",
+          "champion": "Orianna",
+          "queueId": 440,
+          "result": "Loss",
+          "kills": 4,
+          "deaths": 5,
+          "assists": 8,
+          "kda": 2.4,
+          "cs": 188,
+          "gold": 11980,
+          "damage": 22140,
+          "killParticipation": 55.3,
+          "playedAt": "2026-06-07T19:08:00+00:00",
+          "durationSeconds": 1780
+        }
+      ]
+    },
+    {
+      "id": "player-2",
+      "display_name": "Toplaner",
+      "riot_id": "Kamos#EUNE",
+      "puuid": "demo-puuid-2",
+      "region": "eun1",
+      "summoner_level": 389,
+      "profile_icon_id": 33,
+      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.11.1/img/profileicon/33.png",
+      "ranked": {
+        "soloq": {
+          "tier": "GOLD",
+          "rank": "I",
+          "leaguePoints": 79,
+          "wins": 55,
+          "losses": 51,
+          "winRate": 51.89
+        },
+        "flex": {
+          "tier": "PLATINUM",
+          "rank": "IV",
+          "leaguePoints": 23,
+          "wins": 37,
+          "losses": 25,
+          "winRate": 59.68
+        }
+      },
+      "summary": {
+        "matches": 20,
+        "wins": 11,
+        "winRate": 55,
+        "avgKills": 5.3,
+        "avgDeaths": 5.7,
+        "avgAssists": 7.2,
+        "avgKda": 2.19,
+        "avgCs": 174.1,
+        "avgGold": 12480,
+        "avgDamage": 19780,
+        "avgKillParticipation": 49.8
+      },
+      "top_champions": [
+        {
+          "name": "Ornn",
+          "games": 6,
+          "wins": 4,
+          "winRate": 66.67
+        },
+        {
+          "name": "Gnar",
+          "games": 5,
+          "wins": 3,
+          "winRate": 60
+        },
+        {
+          "name": "Renekton",
+          "games": 4,
+          "wins": 1,
+          "winRate": 25
+        }
+      ],
+      "recent_matches": [
+        {
+          "matchId": "EUN1_1003",
+          "champion": "Ornn",
+          "queueId": 440,
+          "result": "Win",
+          "kills": 3,
+          "deaths": 3,
+          "assists": 13,
+          "kda": 5.33,
+          "cs": 187,
+          "gold": 12140,
+          "damage": 18110,
+          "killParticipation": 60.4,
+          "playedAt": "2026-06-08T20:12:00+00:00",
+          "durationSeconds": 1912
+        }
+      ]
+    },
+    {
+      "id": "player-3",
+      "display_name": "Jungler",
+      "riot_id": "DalsiKamos#EUW",
+      "puuid": "demo-puuid-3",
+      "region": "euw1",
+      "summoner_level": 521,
+      "profile_icon_id": 4567,
+      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.11.1/img/profileicon/4567.png",
+      "ranked": {
+        "soloq": null,
+        "flex": {
+          "tier": "EMERALD",
+          "rank": "III",
+          "leaguePoints": 61,
+          "wins": 52,
+          "losses": 36,
+          "winRate": 59.09
+        }
+      },
+      "summary": {
+        "matches": 20,
+        "wins": 13,
+        "winRate": 65,
+        "avgKills": 6.2,
+        "avgDeaths": 4.3,
+        "avgAssists": 11.8,
+        "avgKda": 4.19,
+        "avgCs": 148.6,
+        "avgGold": 12990,
+        "avgDamage": 20850,
+        "avgKillParticipation": 67.1
+      },
+      "top_champions": [
+        {
+          "name": "Viego",
+          "games": 8,
+          "wins": 6,
+          "winRate": 75
+        },
+        {
+          "name": "Jarvan IV",
+          "games": 5,
+          "wins": 4,
+          "winRate": 80
+        }
+      ],
+      "recent_matches": [
+        {
+          "matchId": "EUW1_1001",
+          "champion": "Viego",
+          "queueId": 440,
+          "result": "Win",
+          "kills": 7,
+          "deaths": 4,
+          "assists": 15,
+          "kda": 5.5,
+          "cs": 166,
+          "gold": 14110,
+          "damage": 21990,
+          "killParticipation": 71.2,
+          "playedAt": "2026-06-08T20:14:00+00:00",
+          "durationSeconds": 1912
+        }
+      ]
+    }
+  ],
+  "group": {
+    "trackedPlayers": 3,
+    "sharedMatches": 9,
+    "wins": 6,
+    "winRate": 66.67,
+    "pairings": [
+      {
+        "players": [
+          "Ja",
+          "Jungler"
+        ],
+        "sharedMatches": 7,
+        "wins": 5,
+        "winRate": 71.43
+      },
+      {
+        "players": [
+          "Ja",
+          "Toplaner"
+        ],
+        "sharedMatches": 4,
+        "wins": 3,
+        "winRate": 75
+      },
+      {
+        "players": [
+          "Jungler",
+          "Toplaner"
+        ],
+        "sharedMatches": 3,
+        "wins": 2,
+        "winRate": 66.67
+      }
+    ],
+    "champions": [
+      {
+        "name": "Viego",
+        "games": 7,
+        "wins": 5,
+        "winRate": 71.43
+      },
+      {
+        "name": "Ahri",
+        "games": 6,
+        "wins": 4,
+        "winRate": 66.67
+      }
+    ]
+  }
+}
+

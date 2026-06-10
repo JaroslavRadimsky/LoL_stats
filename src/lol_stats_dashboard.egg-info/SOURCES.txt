@@ -1,0 +1,11 @@
+README.md
+pyproject.toml
+src/lol_stats/__init__.py
+src/lol_stats/__main__.py
+src/lol_stats/generate.py
+src/lol_stats_dashboard.egg-info/PKG-INFO
+src/lol_stats_dashboard.egg-info/SOURCES.txt
+src/lol_stats_dashboard.egg-info/dependency_links.txt
+src/lol_stats_dashboard.egg-info/entry_points.txt
+src/lol_stats_dashboard.egg-info/requires.txt
+src/lol_stats_dashboard.egg-info/top_level.txt

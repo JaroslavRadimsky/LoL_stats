@@ -1,0 +1,14 @@
+{
+  "title": "Nahraď vlastními hráči",
+  "match_count": 20,
+  "queue": 440,
+  "players": [
+    {
+      "display_name": "Ja",
+      "game_name": "MojeRiotJmeno",
+      "tag_line": "EUW",
+      "platform": "euw1"
+    }
+  ]
+}
+

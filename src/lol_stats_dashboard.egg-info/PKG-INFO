@@ -1,0 +1,123 @@
+Metadata-Version: 2.4
+Name: lol-stats-dashboard
+Version: 0.1.0
+Summary: Static League of Legends stats dashboard powered by Riot API and GitHub Pages.
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: python-dotenv>=1.0.1
+Requires-Dist: requests>=2.32.0
+
+# LoL Stats Dashboard
+
+Python projekt, který stáhne statistiky z Riot API a vykreslí je do statického webu vhodného pro GitHub Pages.
+
+## Jak to funguje
+
+- Python skript načte Riot ID tebe a tvých kamarádů z `config/players.json`.
+- Zavolá Riot API a spočítá souhrny z posledních zápasů.
+- Výsledek uloží do `docs/data/stats.json`.
+- Statický frontend v `docs/` si JSON načte a vykreslí dashboard.
+- GitHub Pages pak hostuje jen HTML, CSS, JS a vygenerovaný JSON.
+
+To je důležité, protože GitHub Pages neumí hostovat Python backend. Oficiální dokumentace GitHubu popisuje Pages jako statický hosting a doporučuje GitHub Actions pro vlastní build/deploy workflow: [What is GitHub Pages?](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages), [Configuring a publishing source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site). Riot zároveň doporučuje pracovat s Riot ID a PUUID místo starých summoner name endpointů: [Riot LoL docs](https://developer.riotgames.com/docs/lol), [Riot APIs reference](https://developer.riotgames.com/apis).
+
+## Lokální spuštění
+
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -e .
+```
+
+Vytvoř `.env` s klíčem:
+
+```env
+RIOT_API_KEY=RGAPI-...
+```
+
+Doplň hráče do `config/players.json` podle vzoru v `config/players.example.json`.
+
+Pak vygeneruj data:
+
+```powershell
+python -m lol_stats --config config/players.json --output docs/data/stats.json
+```
+
+Pro rychlý náhled webu můžeš použít třeba:
+
+```powershell
+python -m http.server 8000 -d docs
+```
+
+## Riot config
+
+Ukázkový config:
+
+```json
+{
+  "title": "Naše Flex statistiky",
+  "match_count": 20,
+  "queue": 440,
+  "players": [
+    {
+      "display_name": "Ja",
+      "game_name": "MojeRiotJmeno",
+      "tag_line": "EUW",
+      "platform": "euw1"
+    }
+  ]
+}
+```
+
+Podporované `platform` hodnoty v tomto projektu:
+
+- `euw1`
+- `eun1`
+- `na1`
+- `kr`
+- `br1`
+- `la1`
+- `la2`
+- `oc1`
+- `ru`
+- `tr1`
+- `jp1`
+- `ph2`
+- `sg2`
+- `th2`
+- `tw2`
+- `vn2`
+
+`queue` je volitelné. Například:
+
+- `420` = Ranked Solo/Duo
+- `440` = Ranked Flex
+- `400` = Normal Draft
+
+## GitHub nasazení
+
+Repo už obsahuje workflow v `.github/workflows/deploy-pages.yml`.
+
+Na GitHubu stačí:
+
+1. Přidat secret `RIOT_API_KEY`.
+2. Nastavit GitHub Pages source na `GitHub Actions`.
+3. Přidat vlastní `config/players.json`.
+4. Pushnout repozitář.
+
+Workflow při deployi:
+
+- nainstaluje Python závislosti,
+- pokud najde `config/players.json` a secret, vygeneruje reálná data,
+- jinak ponechá demo data,
+- nasadí obsah `docs/` na GitHub Pages.
+
+## Co dashboard ukazuje
+
+- rank a winrate pro SoloQ/Flex
+- souhrn z posledních zápasů
+- top championy
+- poslední odehrané hry
+- společné zápasy mezi sledovanými hráči
+- jednoduchý přehled dvojic s nejlepší synergií
+

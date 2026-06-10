@@ -1,0 +1,20 @@
+{
+  "title": "Naše LoL statistiky",
+  "match_count": 20,
+  "queue": 440,
+  "players": [
+    {
+      "display_name": "Ja",
+      "game_name": "MojeRiotJmeno",
+      "tag_line": "EUW",
+      "platform": "euw1"
+    },
+    {
+      "display_name": "Kamos",
+      "game_name": "KamosovoJmeno",
+      "tag_line": "EUNE",
+      "platform": "eun1"
+    }
+  ]
+}
+
