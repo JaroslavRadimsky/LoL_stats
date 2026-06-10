@@ -152,6 +152,28 @@ def build_ranked_summary(entries: list[dict[str, Any]]) -> dict[str, Any]:
     return result
 
 
+def extract_summoner_id(summoner: dict[str, Any]) -> str | None:
+    summoner_id = summoner.get("id") or summoner.get("summonerId")
+    if isinstance(summoner_id, str) and summoner_id:
+        return summoner_id
+    return None
+
+
+def fetch_ranked_summary(
+    client: RiotApiClient,
+    platform: str,
+    summoner: dict[str, Any],
+    riot_id: str,
+) -> dict[str, Any]:
+    summoner_id = extract_summoner_id(summoner)
+    if not summoner_id:
+        print(
+            f"Warning: summoner response for {riot_id} did not include a usable summoner ID; skipping ranked data."
+        )
+        return {"soloq": None, "flex": None}
+    return build_ranked_summary(client.get_ranked_entries(platform, summoner_id))
+
+
 def find_participant(match: dict[str, Any], puuid: str) -> dict[str, Any] | None:
     participants = match.get("info", {}).get("participants", [])
     for participant in participants:
@@ -340,9 +362,10 @@ def fetch_live_data(config: dict[str, Any], api_key: str) -> dict[str, Any]:
     for index, player in enumerate(config["players"], start=1):
         platform = player["platform"]
         region = PLATFORM_TO_REGION[platform]
+        riot_id = f'{player["game_name"]}#{player["tag_line"]}'
         account = client.get_account_by_riot_id(region, player["game_name"], player["tag_line"])
         summoner = client.get_summoner_by_puuid(platform, account["puuid"])
-        ranked = build_ranked_summary(client.get_ranked_entries(platform, summoner["id"]))
+        ranked = fetch_ranked_summary(client, platform, summoner, riot_id)
         match_ids = client.get_match_ids(
             region,
             account["puuid"],
