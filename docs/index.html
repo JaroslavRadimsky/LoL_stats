@@ -19,16 +19,17 @@
           <p class="eyebrow">Riot API x GitHub Pages</p>
           <h1 id="page-title">LoL Stats Dashboard</h1>
           <p id="page-subtitle" class="hero-text">
-            Statický přehled pro tebe a partu. Data se generují Pythonem a web je jen čistý frontend.
+            Staticky prehled pro tebe a partu. Data se generuji Pythonem a web je jen cisty frontend.
           </p>
+          <div class="mode-switch" id="mode-switch" aria-label="Prepinac rezimu"></div>
         </div>
         <div class="hero-meta">
           <div class="meta-card">
-            <span class="meta-label">Poslední update</span>
+            <span class="meta-label">Posledni update</span>
             <strong id="generated-at">...</strong>
           </div>
           <div class="meta-card">
-            <span class="meta-label">Sdílené zápasy</span>
+            <span class="meta-label">Sdilene zapasy</span>
             <strong id="shared-matches">0</strong>
           </div>
         </div>
@@ -38,7 +39,7 @@
         <section class="panel spotlight">
           <div class="panel-header">
             <h2>Squad Snapshot</h2>
-            <p id="filter-summary">Načítám data...</p>
+            <p id="filter-summary">Nacitam data...</p>
           </div>
           <div class="metrics" id="group-metrics"></div>
           <div class="pairings" id="pairings"></div>
@@ -47,7 +48,7 @@
         <section class="panel">
           <div class="panel-header">
             <h2>Tracked Players</h2>
-            <p>Karty hráčů se souhrnem posledních zápasů a ranku.</p>
+            <p>Karty hracu se souhrnem poslednich ARAM a Arena her.</p>
           </div>
           <div class="player-grid" id="player-grid"></div>
         </section>
@@ -64,7 +65,6 @@
           </div>
         </div>
 
-        <div class="rank-row"></div>
         <div class="summary-grid"></div>
 
         <div class="subsection">
@@ -73,7 +73,7 @@
         </div>
 
         <div class="subsection">
-          <h4>Poslední hry</h4>
+          <h4>Posledni hry</h4>
           <div class="recent-list"></div>
         </div>
       </article>
@@ -81,4 +81,4 @@
 
     <script src="./app.js" defer></script>
   </body>
-  </html>
+</html>

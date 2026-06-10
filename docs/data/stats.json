@@ -1,300 +1,1529 @@
 {
-  "generated_at": "2026-06-09T12:00:00+00:00",
-  "title": "Demo dashboard pro partu",
+  "generated_at": "2026-06-10T22:59:30.959377+00:00",
+  "title": "Nahraď vlastními hráči",
+  "defaultMode": "aram",
   "filters": {
-    "matchCount": 20,
-    "queue": 440
+    "matchCount": 100,
+    "modes": [
+      {
+        "id": "aram",
+        "label": "ARAM",
+        "queues": [
+          450
+        ]
+      },
+      {
+        "id": "arena",
+        "label": "Arena",
+        "queues": [
+          1700,
+          1710
+        ]
+      }
+    ]
   },
   "players": [
     {
       "id": "player-1",
-      "display_name": "Ja",
-      "riot_id": "MojeRiotJmeno#EUW",
-      "puuid": "demo-puuid-1",
-      "region": "euw1",
-      "summoner_level": 412,
-      "profile_icon_id": 29,
-      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.11.1/img/profileicon/29.png",
-      "ranked": {
-        "soloq": {
-          "tier": "PLATINUM",
-          "rank": "II",
-          "leaguePoints": 41,
-          "wins": 68,
-          "losses": 54,
-          "winRate": 55.74
+      "display_name": "Fuchio420",
+      "riot_id": "Fuchio420#ZAZA",
+      "puuid": "jXC9oNhNNFwOrT7NJrFcH71UqwxJ-ou1TvMLSG_IAWNQo0r3-DlkVilINWavI9vC3T2V0DGp61tZfw",
+      "region": "eun1",
+      "summoner_level": 376,
+      "profile_icon_id": 5410,
+      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.12.1/img/profileicon/5410.png",
+      "modes": {
+        "aram": {
+          "summary": {
+            "matches": 100,
+            "wins": 42,
+            "winRate": 42.0,
+            "avgKills": 11.59,
+            "avgDeaths": 11.98,
+            "avgAssists": 24.59,
+            "avgKda": 302.0,
+            "avgCs": 48.57,
+            "avgGold": 14206.03,
+            "avgDamage": 34089.91,
+            "avgKillParticipation": 61.11
+          },
+          "top_champions": [
+            {
+              "name": "Yone",
+              "games": 5,
+              "wins": 3,
+              "winRate": 60.0
+            },
+            {
+              "name": "Akali",
+              "games": 4,
+              "wins": 1,
+              "winRate": 25.0
+            },
+            {
+              "name": "Ezreal",
+              "games": 4,
+              "wins": 1,
+              "winRate": 25.0
+            },
+            {
+              "name": "Samira",
+              "games": 4,
+              "wins": 3,
+              "winRate": 75.0
+            },
+            {
+              "name": "Twitch",
+              "games": 3,
+              "wins": 1,
+              "winRate": 33.33
+            }
+          ],
+          "recent_matches": [
+            {
+              "matchId": "EUN1_3832785435",
+              "champion": "Twitch",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 13,
+              "deaths": 16,
+              "assists": 31,
+              "kda": 2.75,
+              "cs": 82,
+              "gold": 19614,
+              "damage": 53891,
+              "killParticipation": 66.67,
+              "playedAt": "2025-09-21T23:59:47.575000+00:00",
+              "durationSeconds": 1615
+            },
+            {
+              "matchId": "EUN1_3832776819",
+              "champion": "Chogath",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 13,
+              "deaths": 16,
+              "assists": 40,
+              "kda": 3.31,
+              "cs": 26,
+              "gold": 17674,
+              "damage": 53121,
+              "killParticipation": 80.3,
+              "playedAt": "2025-09-21T23:30:04.209000+00:00",
+              "durationSeconds": 1721
+            },
+            {
+              "matchId": "EUN1_3832773358",
+              "champion": "Yone",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 14,
+              "deaths": 23,
+              "assists": 30,
+              "kda": 1.91,
+              "cs": 95,
+              "gold": 19264,
+              "damage": 62362,
+              "killParticipation": 57.89,
+              "playedAt": "2025-09-21T22:58:24.398000+00:00",
+              "durationSeconds": 1659
+            },
+            {
+              "matchId": "EUN1_3832768306",
+              "champion": "Mordekaiser",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 15,
+              "deaths": 13,
+              "assists": 40,
+              "kda": 4.23,
+              "cs": 87,
+              "gold": 17335,
+              "damage": 115025,
+              "killParticipation": 76.39,
+              "playedAt": "2025-09-21T22:28:31.646000+00:00",
+              "durationSeconds": 1397
+            },
+            {
+              "matchId": "EUN1_3832759397",
+              "champion": "Vi",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 7,
+              "deaths": 11,
+              "assists": 31,
+              "kda": 3.45,
+              "cs": 13,
+              "gold": 13259,
+              "damage": 24309,
+              "killParticipation": 63.33,
+              "playedAt": "2025-09-21T22:02:19.733000+00:00",
+              "durationSeconds": 1198
+            },
+            {
+              "matchId": "EUN1_3832745773",
+              "champion": "Zac",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 6,
+              "deaths": 11,
+              "assists": 32,
+              "kda": 3.45,
+              "cs": 14,
+              "gold": 12317,
+              "damage": 29777,
+              "killParticipation": 50.67,
+              "playedAt": "2025-09-21T21:37:37.217000+00:00",
+              "durationSeconds": 1169
+            },
+            {
+              "matchId": "EUN1_3832734887",
+              "champion": "Jhin",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 14,
+              "deaths": 7,
+              "assists": 27,
+              "kda": 5.86,
+              "cs": 73,
+              "gold": 14687,
+              "damage": 25638,
+              "killParticipation": 62.12,
+              "playedAt": "2025-09-21T21:14:21.019000+00:00",
+              "durationSeconds": 1107
+            },
+            {
+              "matchId": "EUN1_3832731469",
+              "champion": "Azir",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 2,
+              "deaths": 9,
+              "assists": 10,
+              "kda": 1.33,
+              "cs": 39,
+              "gold": 8966,
+              "damage": 10153,
+              "killParticipation": 48.0,
+              "playedAt": "2025-09-21T20:53:28.843000+00:00",
+              "durationSeconds": 925
+            }
+          ]
         },
-        "flex": {
-          "tier": "EMERALD",
-          "rank": "IV",
-          "leaguePoints": 13,
-          "wins": 44,
-          "losses": 31,
-          "winRate": 58.67
+        "arena": {
+          "summary": {
+            "matches": 100,
+            "wins": 42,
+            "winRate": 42.0,
+            "avgKills": 5.78,
+            "avgDeaths": 6.94,
+            "avgAssists": 5.73,
+            "avgKda": 165.85,
+            "avgCs": 0.39,
+            "avgGold": 12240.82,
+            "avgDamage": 30580.79,
+            "avgKillParticipation": 22.61
+          },
+          "top_champions": [
+            {
+              "name": "Chogath",
+              "games": 8,
+              "wins": 6,
+              "winRate": 75.0
+            },
+            {
+              "name": "Rell",
+              "games": 5,
+              "wins": 2,
+              "winRate": 40.0
+            },
+            {
+              "name": "Warwick",
+              "games": 5,
+              "wins": 3,
+              "winRate": 60.0
+            },
+            {
+              "name": "Trundle",
+              "games": 4,
+              "wins": 1,
+              "winRate": 25.0
+            },
+            {
+              "name": "TahmKench",
+              "games": 4,
+              "wins": 2,
+              "winRate": 50.0
+            }
+          ],
+          "recent_matches": [
+            {
+              "matchId": "EUN1_3939279137",
+              "champion": "Swain",
+              "queueId": 1700,
+              "result": "Win",
+              "kills": 6,
+              "deaths": 6,
+              "assists": 2,
+              "kda": 1.33,
+              "cs": 0,
+              "gold": 10500,
+              "damage": 26338,
+              "killParticipation": 13.33,
+              "playedAt": "2026-04-16T23:40:54.716000+00:00",
+              "durationSeconds": 1328
+            },
+            {
+              "matchId": "EUN1_3939274085",
+              "champion": "Trundle",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 3,
+              "deaths": 6,
+              "assists": 2,
+              "kda": 0.83,
+              "cs": 0,
+              "gold": 7250,
+              "damage": 14710,
+              "killParticipation": 16.67,
+              "playedAt": "2026-04-16T23:20:50.748000+00:00",
+              "durationSeconds": 1387
+            },
+            {
+              "matchId": "EUN1_3939262542",
+              "champion": "Trundle",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 5,
+              "deaths": 5,
+              "assists": 5,
+              "kda": 2.0,
+              "cs": 0,
+              "gold": 10050,
+              "damage": 40380,
+              "killParticipation": 38.46,
+              "playedAt": "2026-04-16T23:02:53.775000+00:00",
+              "durationSeconds": 1528
+            },
+            {
+              "matchId": "EUN1_3939251031",
+              "champion": "Sett",
+              "queueId": 1700,
+              "result": "Win",
+              "kills": 8,
+              "deaths": 6,
+              "assists": 5,
+              "kda": 2.17,
+              "cs": 0,
+              "gold": 14750,
+              "damage": 34969,
+              "killParticipation": 16.88,
+              "playedAt": "2026-04-16T22:37:53.551000+00:00",
+              "durationSeconds": 1376
+            },
+            {
+              "matchId": "EUN1_3939240892",
+              "champion": "Teemo",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 4,
+              "deaths": 8,
+              "assists": 3,
+              "kda": 0.88,
+              "cs": 0,
+              "gold": 12000,
+              "damage": 14321,
+              "killParticipation": 20.59,
+              "playedAt": "2026-04-16T22:14:13.237000+00:00",
+              "durationSeconds": 1447
+            },
+            {
+              "matchId": "EUN1_3938369312",
+              "champion": "Sivir",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 4,
+              "deaths": 7,
+              "assists": 2,
+              "kda": 0.86,
+              "cs": 0,
+              "gold": 9200,
+              "damage": 17351,
+              "killParticipation": 20.0,
+              "playedAt": "2026-04-14T22:21:41.241000+00:00",
+              "durationSeconds": 1437
+            },
+            {
+              "matchId": "EUN1_3938351882",
+              "champion": "TahmKench",
+              "queueId": 1700,
+              "result": "Win",
+              "kills": 7,
+              "deaths": 6,
+              "assists": 10,
+              "kda": 2.83,
+              "cs": 0,
+              "gold": 18023,
+              "damage": 45761,
+              "killParticipation": 18.48,
+              "playedAt": "2026-04-14T21:57:34.389000+00:00",
+              "durationSeconds": 1731
+            },
+            {
+              "matchId": "EUN1_3918284789",
+              "champion": "Taric",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 3,
+              "deaths": 9,
+              "assists": 10,
+              "kda": 1.44,
+              "cs": 1,
+              "gold": 11134,
+              "damage": 28516,
+              "killParticipation": 34.21,
+              "playedAt": "2026-03-02T00:08:35.223000+00:00",
+              "durationSeconds": 1605
+            }
+          ]
         }
-      },
-      "summary": {
-        "matches": 20,
-        "wins": 12,
-        "winRate": 60,
-        "avgKills": 7.1,
-        "avgDeaths": 4.8,
-        "avgAssists": 9.4,
-        "avgKda": 3.46,
-        "avgCs": 186.2,
-        "avgGold": 13120,
-        "avgDamage": 24400,
-        "avgKillParticipation": 58.3
-      },
-      "top_champions": [
-        {
-          "name": "Ahri",
-          "games": 7,
-          "wins": 5,
-          "winRate": 71.43
-        },
-        {
-          "name": "Orianna",
-          "games": 5,
-          "wins": 3,
-          "winRate": 60
-        },
-        {
-          "name": "Taliyah",
-          "games": 4,
-          "wins": 3,
-          "winRate": 75
-        }
-      ],
-      "recent_matches": [
-        {
-          "matchId": "EUW1_1001",
-          "champion": "Ahri",
-          "queueId": 440,
-          "result": "Win",
-          "kills": 8,
-          "deaths": 2,
-          "assists": 11,
-          "kda": 9.5,
-          "cs": 201,
-          "gold": 14800,
-          "damage": 27300,
-          "killParticipation": 64.1,
-          "playedAt": "2026-06-08T20:14:00+00:00",
-          "durationSeconds": 1912
-        },
-        {
-          "matchId": "EUW1_1002",
-          "champion": "Orianna",
-          "queueId": 440,
-          "result": "Loss",
-          "kills": 4,
-          "deaths": 5,
-          "assists": 8,
-          "kda": 2.4,
-          "cs": 188,
-          "gold": 11980,
-          "damage": 22140,
-          "killParticipation": 55.3,
-          "playedAt": "2026-06-07T19:08:00+00:00",
-          "durationSeconds": 1780
-        }
-      ]
+      }
     },
     {
       "id": "player-2",
-      "display_name": "Toplaner",
-      "riot_id": "Kamos#EUNE",
-      "puuid": "demo-puuid-2",
+      "display_name": "CleverG",
+      "riot_id": "CleverG#Gesus",
+      "puuid": "mYDvs4r4AYqcvngp9oC1gLUQWhvLQWTz4gT3um2tlbFsyXn7BZPNuVTbao3pDQ86BRWKubgSNPXiUA",
       "region": "eun1",
-      "summoner_level": 389,
-      "profile_icon_id": 33,
-      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.11.1/img/profileicon/33.png",
-      "ranked": {
-        "soloq": {
-          "tier": "GOLD",
-          "rank": "I",
-          "leaguePoints": 79,
-          "wins": 55,
-          "losses": 51,
-          "winRate": 51.89
+      "summoner_level": 541,
+      "profile_icon_id": 5117,
+      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.12.1/img/profileicon/5117.png",
+      "modes": {
+        "aram": {
+          "summary": {
+            "matches": 100,
+            "wins": 49,
+            "winRate": 49.0,
+            "avgKills": 14.46,
+            "avgDeaths": 12.32,
+            "avgAssists": 24.69,
+            "avgKda": 317.78,
+            "avgCs": 71.08,
+            "avgGold": 15373.67,
+            "avgDamage": 40784.98,
+            "avgKillParticipation": 66.51
+          },
+          "top_champions": [
+            {
+              "name": "Kayle",
+              "games": 5,
+              "wins": 3,
+              "winRate": 60.0
+            },
+            {
+              "name": "Tristana",
+              "games": 4,
+              "wins": 2,
+              "winRate": 50.0
+            },
+            {
+              "name": "Lucian",
+              "games": 4,
+              "wins": 0,
+              "winRate": 0.0
+            },
+            {
+              "name": "Taliyah",
+              "games": 4,
+              "wins": 4,
+              "winRate": 100.0
+            },
+            {
+              "name": "Viktor",
+              "games": 3,
+              "wins": 1,
+              "winRate": 33.33
+            }
+          ],
+          "recent_matches": [
+            {
+              "matchId": "EUN1_3841913308",
+              "champion": "Ahri",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 13,
+              "deaths": 16,
+              "assists": 30,
+              "kda": 2.69,
+              "cs": 120,
+              "gold": 19294,
+              "damage": 38856,
+              "killParticipation": 62.32,
+              "playedAt": "2025-10-06T23:41:14.460000+00:00",
+              "durationSeconds": 1693
+            },
+            {
+              "matchId": "EUN1_3841903397",
+              "champion": "Viktor",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 20,
+              "deaths": 19,
+              "assists": 30,
+              "kda": 2.63,
+              "cs": 121,
+              "gold": 22029,
+              "damage": 64397,
+              "killParticipation": 66.67,
+              "playedAt": "2025-10-06T23:10:07.082000+00:00",
+              "durationSeconds": 1792
+            },
+            {
+              "matchId": "EUN1_3832785435",
+              "champion": "Akali",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 11,
+              "deaths": 19,
+              "assists": 24,
+              "kda": 1.84,
+              "cs": 36,
+              "gold": 16091,
+              "damage": 40159,
+              "killParticipation": 53.03,
+              "playedAt": "2025-09-21T23:59:47.575000+00:00",
+              "durationSeconds": 1615
+            },
+            {
+              "matchId": "EUN1_3832776819",
+              "champion": "Sivir",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 14,
+              "deaths": 15,
+              "assists": 44,
+              "kda": 3.87,
+              "cs": 210,
+              "gold": 23016,
+              "damage": 116036,
+              "killParticipation": 87.88,
+              "playedAt": "2025-09-21T23:30:04.209000+00:00",
+              "durationSeconds": 1721
+            },
+            {
+              "matchId": "EUN1_3832773358",
+              "champion": "Akshan",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 20,
+              "deaths": 17,
+              "assists": 29,
+              "kda": 2.88,
+              "cs": 69,
+              "gold": 20860,
+              "damage": 60676,
+              "killParticipation": 64.47,
+              "playedAt": "2025-09-21T22:58:24.398000+00:00",
+              "durationSeconds": 1659
+            },
+            {
+              "matchId": "EUN1_3832768306",
+              "champion": "Mel",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 19,
+              "deaths": 7,
+              "assists": 31,
+              "kda": 7.14,
+              "cs": 54,
+              "gold": 16878,
+              "damage": 66854,
+              "killParticipation": 69.44,
+              "playedAt": "2025-09-21T22:28:31.646000+00:00",
+              "durationSeconds": 1397
+            },
+            {
+              "matchId": "EUN1_3832759397",
+              "champion": "Yone",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 11,
+              "deaths": 13,
+              "assists": 30,
+              "kda": 3.15,
+              "cs": 40,
+              "gold": 14601,
+              "damage": 29396,
+              "killParticipation": 68.33,
+              "playedAt": "2025-09-21T22:02:19.733000+00:00",
+              "durationSeconds": 1198
+            },
+            {
+              "matchId": "EUN1_3832745773",
+              "champion": "Tristana",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 27,
+              "deaths": 14,
+              "assists": 34,
+              "kda": 4.36,
+              "cs": 71,
+              "gold": 17630,
+              "damage": 73567,
+              "killParticipation": 81.33,
+              "playedAt": "2025-09-21T21:37:37.217000+00:00",
+              "durationSeconds": 1169
+            }
+          ]
         },
-        "flex": {
-          "tier": "PLATINUM",
-          "rank": "IV",
-          "leaguePoints": 23,
-          "wins": 37,
-          "losses": 25,
-          "winRate": 59.68
+        "arena": {
+          "summary": {
+            "matches": 100,
+            "wins": 37,
+            "winRate": 37.0,
+            "avgKills": 6.47,
+            "avgDeaths": 6.86,
+            "avgAssists": 4.67,
+            "avgKda": 162.39,
+            "avgCs": 0.38,
+            "avgGold": 12954.25,
+            "avgDamage": 35100.46,
+            "avgKillParticipation": 23.9
+          },
+          "top_champions": [
+            {
+              "name": "AurelionSol",
+              "games": 5,
+              "wins": 3,
+              "winRate": 60.0
+            },
+            {
+              "name": "Singed",
+              "games": 5,
+              "wins": 2,
+              "winRate": 40.0
+            },
+            {
+              "name": "Smolder",
+              "games": 4,
+              "wins": 1,
+              "winRate": 25.0
+            },
+            {
+              "name": "Jhin",
+              "games": 3,
+              "wins": 2,
+              "winRate": 66.67
+            },
+            {
+              "name": "Zyra",
+              "games": 3,
+              "wins": 2,
+              "winRate": 66.67
+            }
+          ],
+          "recent_matches": [
+            {
+              "matchId": "EUN1_3941372025",
+              "champion": "Ezreal",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 14,
+              "deaths": 8,
+              "assists": 3,
+              "kda": 2.12,
+              "cs": 0,
+              "gold": 13300,
+              "damage": 54386,
+              "killParticipation": 53.12,
+              "playedAt": "2026-04-21T17:16:37.803000+00:00",
+              "durationSeconds": 1448
+            },
+            {
+              "matchId": "EUN1_3940822171",
+              "champion": "Nasus",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 4,
+              "deaths": 7,
+              "assists": 5,
+              "kda": 1.29,
+              "cs": 2,
+              "gold": 12350,
+              "damage": 24729,
+              "killParticipation": 26.47,
+              "playedAt": "2026-04-20T11:44:12.574000+00:00",
+              "durationSeconds": 1633
+            },
+            {
+              "matchId": "EUN1_3940811002",
+              "champion": "AurelionSol",
+              "queueId": 1700,
+              "result": "Win",
+              "kills": 3,
+              "deaths": 9,
+              "assists": 5,
+              "kda": 0.89,
+              "cs": 1,
+              "gold": 13590,
+              "damage": 25823,
+              "killParticipation": 11.27,
+              "playedAt": "2026-04-20T11:15:26.117000+00:00",
+              "durationSeconds": 1490
+            },
+            {
+              "matchId": "EUN1_3939279137",
+              "champion": "Azir",
+              "queueId": 1700,
+              "result": "Win",
+              "kills": 2,
+              "deaths": 9,
+              "assists": 5,
+              "kda": 0.78,
+              "cs": 0,
+              "gold": 10500,
+              "damage": 32884,
+              "killParticipation": 11.67,
+              "playedAt": "2026-04-16T23:40:54.716000+00:00",
+              "durationSeconds": 1328
+            },
+            {
+              "matchId": "EUN1_3939274085",
+              "champion": "Ahri",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 2,
+              "deaths": 7,
+              "assists": 3,
+              "kda": 0.71,
+              "cs": 0,
+              "gold": 7550,
+              "damage": 16359,
+              "killParticipation": 16.67,
+              "playedAt": "2026-04-16T23:20:50.748000+00:00",
+              "durationSeconds": 1387
+            },
+            {
+              "matchId": "EUN1_3939262542",
+              "champion": "LeeSin",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 5,
+              "deaths": 6,
+              "assists": 5,
+              "kda": 1.67,
+              "cs": 0,
+              "gold": 10070,
+              "damage": 22626,
+              "killParticipation": 38.46,
+              "playedAt": "2026-04-16T23:02:53.775000+00:00",
+              "durationSeconds": 1528
+            },
+            {
+              "matchId": "EUN1_3939251031",
+              "champion": "Camille",
+              "queueId": 1700,
+              "result": "Win",
+              "kills": 9,
+              "deaths": 7,
+              "assists": 7,
+              "kda": 2.29,
+              "cs": 0,
+              "gold": 16650,
+              "damage": 24083,
+              "killParticipation": 20.78,
+              "playedAt": "2026-04-16T22:37:53.551000+00:00",
+              "durationSeconds": 1376
+            },
+            {
+              "matchId": "EUN1_3939240892",
+              "champion": "Morgana",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 3,
+              "deaths": 7,
+              "assists": 4,
+              "kda": 1.0,
+              "cs": 0,
+              "gold": 10800,
+              "damage": 29659,
+              "killParticipation": 20.59,
+              "playedAt": "2026-04-16T22:14:13.237000+00:00",
+              "durationSeconds": 1447
+            }
+          ]
         }
-      },
-      "summary": {
-        "matches": 20,
-        "wins": 11,
-        "winRate": 55,
-        "avgKills": 5.3,
-        "avgDeaths": 5.7,
-        "avgAssists": 7.2,
-        "avgKda": 2.19,
-        "avgCs": 174.1,
-        "avgGold": 12480,
-        "avgDamage": 19780,
-        "avgKillParticipation": 49.8
-      },
-      "top_champions": [
-        {
-          "name": "Ornn",
-          "games": 6,
-          "wins": 4,
-          "winRate": 66.67
-        },
-        {
-          "name": "Gnar",
-          "games": 5,
-          "wins": 3,
-          "winRate": 60
-        },
-        {
-          "name": "Renekton",
-          "games": 4,
-          "wins": 1,
-          "winRate": 25
-        }
-      ],
-      "recent_matches": [
-        {
-          "matchId": "EUN1_1003",
-          "champion": "Ornn",
-          "queueId": 440,
-          "result": "Win",
-          "kills": 3,
-          "deaths": 3,
-          "assists": 13,
-          "kda": 5.33,
-          "cs": 187,
-          "gold": 12140,
-          "damage": 18110,
-          "killParticipation": 60.4,
-          "playedAt": "2026-06-08T20:12:00+00:00",
-          "durationSeconds": 1912
-        }
-      ]
+      }
     },
     {
       "id": "player-3",
-      "display_name": "Jungler",
-      "riot_id": "DalsiKamos#EUW",
-      "puuid": "demo-puuid-3",
-      "region": "euw1",
-      "summoner_level": 521,
-      "profile_icon_id": 4567,
-      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.11.1/img/profileicon/4567.png",
-      "ranked": {
-        "soloq": null,
-        "flex": {
-          "tier": "EMERALD",
-          "rank": "III",
-          "leaguePoints": 61,
-          "wins": 52,
-          "losses": 36,
-          "winRate": 59.09
-        }
-      },
-      "summary": {
-        "matches": 20,
-        "wins": 13,
-        "winRate": 65,
-        "avgKills": 6.2,
-        "avgDeaths": 4.3,
-        "avgAssists": 11.8,
-        "avgKda": 4.19,
-        "avgCs": 148.6,
-        "avgGold": 12990,
-        "avgDamage": 20850,
-        "avgKillParticipation": 67.1
-      },
-      "top_champions": [
-        {
-          "name": "Viego",
-          "games": 8,
-          "wins": 6,
-          "winRate": 75
+      "display_name": "Cermi6666",
+      "riot_id": "Cermi6666#6666",
+      "puuid": "xtfUASlpSXZeaXgi3x4ZHmrd7qpMldwX85DlZyI7P9avvT9YEwylJ8y6lxqVQF-mYX6uuhS31st-zw",
+      "region": "eun1",
+      "summoner_level": 638,
+      "profile_icon_id": 6893,
+      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.12.1/img/profileicon/6893.png",
+      "modes": {
+        "aram": {
+          "summary": {
+            "matches": 100,
+            "wins": 49,
+            "winRate": 49.0,
+            "avgKills": 11.42,
+            "avgDeaths": 14.67,
+            "avgAssists": 25.5,
+            "avgKda": 251.67,
+            "avgCs": 53.23,
+            "avgGold": 13941.2,
+            "avgDamage": 37694.27,
+            "avgKillParticipation": 65.13
+          },
+          "top_champions": [
+            {
+              "name": "Sylas",
+              "games": 7,
+              "wins": 4,
+              "winRate": 57.14
+            },
+            {
+              "name": "Lucian",
+              "games": 5,
+              "wins": 4,
+              "winRate": 80.0
+            },
+            {
+              "name": "AurelionSol",
+              "games": 4,
+              "wins": 3,
+              "winRate": 75.0
+            },
+            {
+              "name": "Irelia",
+              "games": 4,
+              "wins": 1,
+              "winRate": 25.0
+            },
+            {
+              "name": "Karthus",
+              "games": 4,
+              "wins": 1,
+              "winRate": 25.0
+            }
+          ],
+          "recent_matches": [
+            {
+              "matchId": "EUN1_3912145731",
+              "champion": "Twitch",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 12,
+              "deaths": 15,
+              "assists": 25,
+              "kda": 2.47,
+              "cs": 44,
+              "gold": 13766,
+              "damage": 35163,
+              "killParticipation": 75.51,
+              "playedAt": "2026-02-18T18:59:09.528000+00:00",
+              "durationSeconds": 1125
+            },
+            {
+              "matchId": "EUN1_3910282068",
+              "champion": "Sylas",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 5,
+              "deaths": 14,
+              "assists": 32,
+              "kda": 2.64,
+              "cs": 14,
+              "gold": 11437,
+              "damage": 26983,
+              "killParticipation": 72.55,
+              "playedAt": "2026-02-15T12:11:35.015000+00:00",
+              "durationSeconds": 1063
+            },
+            {
+              "matchId": "EUN1_3908935478",
+              "champion": "Akshan",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 7,
+              "deaths": 13,
+              "assists": 21,
+              "kda": 2.15,
+              "cs": 39,
+              "gold": 12487,
+              "damage": 17199,
+              "killParticipation": 41.79,
+              "playedAt": "2026-02-12T21:04:22.805000+00:00",
+              "durationSeconds": 1046
+            },
+            {
+              "matchId": "EUN1_3908763572",
+              "champion": "Lucian",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 9,
+              "deaths": 7,
+              "assists": 20,
+              "kda": 4.14,
+              "cs": 40,
+              "gold": 9949,
+              "damage": 22630,
+              "killParticipation": 76.32,
+              "playedAt": "2026-02-12T17:06:24.447000+00:00",
+              "durationSeconds": 664
+            },
+            {
+              "matchId": "EUN1_3907095243",
+              "champion": "AurelionSol",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 14,
+              "deaths": 12,
+              "assists": 35,
+              "kda": 4.08,
+              "cs": 56,
+              "gold": 17175,
+              "damage": 51891,
+              "killParticipation": 74.24,
+              "playedAt": "2026-02-09T16:48:04.670000+00:00",
+              "durationSeconds": 1414
+            },
+            {
+              "matchId": "EUN1_3907074945",
+              "champion": "KSante",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 6,
+              "deaths": 12,
+              "assists": 21,
+              "kda": 2.25,
+              "cs": 38,
+              "gold": 11963,
+              "damage": 16977,
+              "killParticipation": 54.0,
+              "playedAt": "2026-02-09T16:19:30.603000+00:00",
+              "durationSeconds": 1073
+            },
+            {
+              "matchId": "EUN1_3841913308",
+              "champion": "Lucian",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 9,
+              "deaths": 20,
+              "assists": 28,
+              "kda": 1.85,
+              "cs": 67,
+              "gold": 17421,
+              "damage": 36539,
+              "killParticipation": 53.62,
+              "playedAt": "2025-10-06T23:41:14.460000+00:00",
+              "durationSeconds": 1693
+            },
+            {
+              "matchId": "EUN1_3841903397",
+              "champion": "Jhin",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 24,
+              "deaths": 20,
+              "assists": 26,
+              "kda": 2.5,
+              "cs": 124,
+              "gold": 22934,
+              "damage": 56451,
+              "killParticipation": 66.67,
+              "playedAt": "2025-10-06T23:10:07.082000+00:00",
+              "durationSeconds": 1792
+            }
+          ]
         },
-        {
-          "name": "Jarvan IV",
-          "games": 5,
-          "wins": 4,
-          "winRate": 80
+        "arena": {
+          "summary": {
+            "matches": 1,
+            "wins": 1,
+            "winRate": 100.0,
+            "avgKills": 12.0,
+            "avgDeaths": 12.0,
+            "avgAssists": 10.0,
+            "avgKda": 1.83,
+            "avgCs": 0.0,
+            "avgGold": 22510.0,
+            "avgDamage": 32947.0,
+            "avgKillParticipation": 28.21
+          },
+          "top_champions": [
+            {
+              "name": "Darius",
+              "games": 1,
+              "wins": 1,
+              "winRate": 100.0
+            }
+          ],
+          "recent_matches": [
+            {
+              "matchId": "EUN1_3812180834",
+              "champion": "Darius",
+              "queueId": 1700,
+              "result": "Win",
+              "kills": 12,
+              "deaths": 12,
+              "assists": 10,
+              "kda": 1.83,
+              "cs": 0,
+              "gold": 22510,
+              "damage": 32947,
+              "killParticipation": 28.21,
+              "playedAt": "2025-08-03T19:50:42.932000+00:00",
+              "durationSeconds": 1650
+            }
+          ]
         }
-      ],
-      "recent_matches": [
-        {
-          "matchId": "EUW1_1001",
-          "champion": "Viego",
-          "queueId": 440,
-          "result": "Win",
-          "kills": 7,
-          "deaths": 4,
-          "assists": 15,
-          "kda": 5.5,
-          "cs": 166,
-          "gold": 14110,
-          "damage": 21990,
-          "killParticipation": 71.2,
-          "playedAt": "2026-06-08T20:14:00+00:00",
-          "durationSeconds": 1912
+      }
+    },
+    {
+      "id": "player-4",
+      "display_name": "Ethereal",
+      "riot_id": "Ethereal#CBA",
+      "puuid": "jX_zKBSv4Qr1083cEX8E8UNGKymo1HLXAC6TTqOWSZl5y4NV-rZIPUuKLD-T9xtw15jn9ErBMh4fgg",
+      "region": "eun1",
+      "summoner_level": 526,
+      "profile_icon_id": 7119,
+      "profile_icon_url": "https://ddragon.leagueoflegends.com/cdn/16.12.1/img/profileicon/7119.png",
+      "modes": {
+        "aram": {
+          "summary": {
+            "matches": 100,
+            "wins": 53,
+            "winRate": 53.0,
+            "avgKills": 10.56,
+            "avgDeaths": 9.3,
+            "avgAssists": 27.53,
+            "avgKda": 409.57,
+            "avgCs": 45.35,
+            "avgGold": 14356.07,
+            "avgDamage": 33582.97,
+            "avgKillParticipation": 64.32
+          },
+          "top_champions": [
+            {
+              "name": "Aatrox",
+              "games": 5,
+              "wins": 4,
+              "winRate": 80.0
+            },
+            {
+              "name": "Mordekaiser",
+              "games": 4,
+              "wins": 0,
+              "winRate": 0.0
+            },
+            {
+              "name": "Renata",
+              "games": 4,
+              "wins": 3,
+              "winRate": 75.0
+            },
+            {
+              "name": "Pyke",
+              "games": 3,
+              "wins": 1,
+              "winRate": 33.33
+            },
+            {
+              "name": "Thresh",
+              "games": 3,
+              "wins": 2,
+              "winRate": 66.67
+            }
+          ],
+          "recent_matches": [
+            {
+              "matchId": "EUN1_3907095243",
+              "champion": "Yunara",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 11,
+              "deaths": 11,
+              "assists": 31,
+              "kda": 3.82,
+              "cs": 61,
+              "gold": 16002,
+              "damage": 42999,
+              "killParticipation": 63.64,
+              "playedAt": "2026-02-09T16:48:04.670000+00:00",
+              "durationSeconds": 1414
+            },
+            {
+              "matchId": "EUN1_3907074945",
+              "champion": "Pyke",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 19,
+              "deaths": 11,
+              "assists": 13,
+              "kda": 2.91,
+              "cs": 7,
+              "gold": 13123,
+              "damage": 21559,
+              "killParticipation": 64.0,
+              "playedAt": "2026-02-09T16:19:30.603000+00:00",
+              "durationSeconds": 1073
+            },
+            {
+              "matchId": "EUN1_3841913308",
+              "champion": "Ambessa",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 19,
+              "deaths": 16,
+              "assists": 22,
+              "kda": 2.56,
+              "cs": 50,
+              "gold": 20694,
+              "damage": 47966,
+              "killParticipation": 59.42,
+              "playedAt": "2025-10-06T23:41:14.460000+00:00",
+              "durationSeconds": 1693
+            },
+            {
+              "matchId": "EUN1_3841903397",
+              "champion": "Ornn",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 11,
+              "deaths": 15,
+              "assists": 37,
+              "kda": 3.2,
+              "cs": 38,
+              "gold": 19582,
+              "damage": 39845,
+              "killParticipation": 64.0,
+              "playedAt": "2025-10-06T23:10:07.082000+00:00",
+              "durationSeconds": 1792
+            },
+            {
+              "matchId": "EUN1_3825955362",
+              "champion": "Mordekaiser",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 9,
+              "deaths": 8,
+              "assists": 7,
+              "kda": 2.0,
+              "cs": 55,
+              "gold": 12376,
+              "damage": 19382,
+              "killParticipation": 37.21,
+              "playedAt": "2025-09-04T19:39:57.039000+00:00",
+              "durationSeconds": 1149
+            },
+            {
+              "matchId": "EUN1_3825944246",
+              "champion": "Caitlyn",
+              "queueId": 450,
+              "result": "Win",
+              "kills": 12,
+              "deaths": 9,
+              "assists": 23,
+              "kda": 3.89,
+              "cs": 49,
+              "gold": 14305,
+              "damage": 30221,
+              "killParticipation": 50.72,
+              "playedAt": "2025-09-04T19:17:03.032000+00:00",
+              "durationSeconds": 1177
+            },
+            {
+              "matchId": "EUN1_3825913407",
+              "champion": "Heimerdinger",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 5,
+              "deaths": 13,
+              "assists": 23,
+              "kda": 2.15,
+              "cs": 91,
+              "gold": 20482,
+              "damage": 44632,
+              "killParticipation": 32.18,
+              "playedAt": "2025-09-04T18:38:13.550000+00:00",
+              "durationSeconds": 2067
+            },
+            {
+              "matchId": "EUN1_3825894655",
+              "champion": "Yunara",
+              "queueId": 450,
+              "result": "Loss",
+              "kills": 14,
+              "deaths": 14,
+              "assists": 38,
+              "kda": 3.71,
+              "cs": 94,
+              "gold": 18898,
+              "damage": 76435,
+              "killParticipation": 59.09,
+              "playedAt": "2025-09-04T18:00:29.262000+00:00",
+              "durationSeconds": 1703
+            }
+          ]
+        },
+        "arena": {
+          "summary": {
+            "matches": 27,
+            "wins": 14,
+            "winRate": 51.85,
+            "avgKills": 6.04,
+            "avgDeaths": 7.26,
+            "avgAssists": 7.26,
+            "avgKda": 49.45,
+            "avgCs": 0.63,
+            "avgGold": 12518.19,
+            "avgDamage": 38250.96,
+            "avgKillParticipation": 24.47
+          },
+          "top_champions": [
+            {
+              "name": "Jax",
+              "games": 2,
+              "wins": 0,
+              "winRate": 0.0
+            },
+            {
+              "name": "Aurora",
+              "games": 2,
+              "wins": 1,
+              "winRate": 50.0
+            },
+            {
+              "name": "Ambessa",
+              "games": 2,
+              "wins": 2,
+              "winRate": 100.0
+            },
+            {
+              "name": "XinZhao",
+              "games": 1,
+              "wins": 0,
+              "winRate": 0.0
+            },
+            {
+              "name": "Yasuo",
+              "games": 1,
+              "wins": 0,
+              "winRate": 0.0
+            }
+          ],
+          "recent_matches": [
+            {
+              "matchId": "EUN1_3844841962",
+              "champion": "XinZhao",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 4,
+              "deaths": 9,
+              "assists": 2,
+              "kda": 0.67,
+              "cs": 0,
+              "gold": 7256,
+              "damage": 23630,
+              "killParticipation": 17.14,
+              "playedAt": "2025-10-12T22:58:42.275000+00:00",
+              "durationSeconds": 1583
+            },
+            {
+              "matchId": "EUN1_3844832025",
+              "champion": "Jax",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 5,
+              "deaths": 9,
+              "assists": 6,
+              "kda": 1.22,
+              "cs": 1,
+              "gold": 10300,
+              "damage": 35457,
+              "killParticipation": 42.31,
+              "playedAt": "2025-10-12T22:30:06.447000+00:00",
+              "durationSeconds": 1422
+            },
+            {
+              "matchId": "EUN1_3844820898",
+              "champion": "Yasuo",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 5,
+              "deaths": 9,
+              "assists": 2,
+              "kda": 0.78,
+              "cs": 0,
+              "gold": 10003,
+              "damage": 24551,
+              "killParticipation": 29.17,
+              "playedAt": "2025-10-12T22:06:00.707000+00:00",
+              "durationSeconds": 1481
+            },
+            {
+              "matchId": "EUN1_3844804992",
+              "champion": "Malphite",
+              "queueId": 1700,
+              "result": "Win",
+              "kills": 9,
+              "deaths": 8,
+              "assists": 23,
+              "kda": 4.0,
+              "cs": 0,
+              "gold": 21880,
+              "damage": 52324,
+              "killParticipation": 34.41,
+              "playedAt": "2025-10-12T21:35:43.634000+00:00",
+              "durationSeconds": 1609
+            },
+            {
+              "matchId": "EUN1_3814365313",
+              "champion": "Aurora",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 3,
+              "deaths": 8,
+              "assists": 4,
+              "kda": 0.88,
+              "cs": 0,
+              "gold": 9756,
+              "damage": 28358,
+              "killParticipation": 15.22,
+              "playedAt": "2025-08-08T21:10:59.786000+00:00",
+              "durationSeconds": 1688
+            },
+            {
+              "matchId": "EUN1_3814349958",
+              "champion": "KSante",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 3,
+              "deaths": 7,
+              "assists": 0,
+              "kda": 0.43,
+              "cs": 0,
+              "gold": 7000,
+              "damage": 28783,
+              "killParticipation": 10.71,
+              "playedAt": "2025-08-08T20:55:43.254000+00:00",
+              "durationSeconds": 1851
+            },
+            {
+              "matchId": "EUN1_3771965451",
+              "champion": "Jax",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 2,
+              "deaths": 7,
+              "assists": 4,
+              "kda": 0.86,
+              "cs": 0,
+              "gold": 9726,
+              "damage": 20756,
+              "killParticipation": 22.22,
+              "playedAt": "2025-04-21T22:19:39.512000+00:00",
+              "durationSeconds": 1457
+            },
+            {
+              "matchId": "EUN1_3771955588",
+              "champion": "Naafiri",
+              "queueId": 1700,
+              "result": "Loss",
+              "kills": 2,
+              "deaths": 6,
+              "assists": 1,
+              "kda": 0.5,
+              "cs": 0,
+              "gold": 6505,
+              "damage": 13069,
+              "killParticipation": 8.82,
+              "playedAt": "2025-04-21T22:00:25.220000+00:00",
+              "durationSeconds": 1493
+            }
+          ]
         }
-      ]
+      }
     }
   ],
   "group": {
-    "trackedPlayers": 3,
-    "sharedMatches": 9,
-    "wins": 6,
-    "winRate": 66.67,
-    "pairings": [
-      {
-        "players": [
-          "Ja",
-          "Jungler"
+    "modes": {
+      "aram": {
+        "trackedPlayers": 4,
+        "sharedMatches": 133,
+        "wins": 65,
+        "winRate": 48.87,
+        "pairings": [
+          {
+            "players": [
+              "CleverG",
+              "Fuchio420"
+            ],
+            "sharedMatches": 70,
+            "wins": 32,
+            "winRate": 45.71
+          },
+          {
+            "players": [
+              "Ethereal",
+              "Fuchio420"
+            ],
+            "sharedMatches": 66,
+            "wins": 34,
+            "winRate": 51.52
+          },
+          {
+            "players": [
+              "Cermi6666",
+              "Fuchio420"
+            ],
+            "sharedMatches": 50,
+            "wins": 23,
+            "winRate": 46.0
+          },
+          {
+            "players": [
+              "CleverG",
+              "Ethereal"
+            ],
+            "sharedMatches": 46,
+            "wins": 23,
+            "winRate": 50.0
+          },
+          {
+            "players": [
+              "Cermi6666",
+              "Ethereal"
+            ],
+            "sharedMatches": 45,
+            "wins": 22,
+            "winRate": 48.89
+          },
+          {
+            "players": [
+              "Cermi6666",
+              "CleverG"
+            ],
+            "sharedMatches": 43,
+            "wins": 18,
+            "winRate": 41.86
+          }
         ],
-        "sharedMatches": 7,
-        "wins": 5,
-        "winRate": 71.43
+        "champions": [
+          {
+            "name": "Lucian",
+            "games": 11,
+            "wins": 5,
+            "winRate": 45.45
+          },
+          {
+            "name": "Yone",
+            "games": 10,
+            "wins": 6,
+            "winRate": 60.0
+          },
+          {
+            "name": "Mordekaiser",
+            "games": 9,
+            "wins": 4,
+            "winRate": 44.44
+          },
+          {
+            "name": "Akali",
+            "games": 8,
+            "wins": 3,
+            "winRate": 37.5
+          },
+          {
+            "name": "Samira",
+            "games": 8,
+            "wins": 5,
+            "winRate": 62.5
+          }
+        ]
       },
-      {
-        "players": [
-          "Ja",
-          "Toplaner"
+      "arena": {
+        "trackedPlayers": 4,
+        "sharedMatches": 95,
+        "wins": 38,
+        "winRate": 40.0,
+        "pairings": [
+          {
+            "players": [
+              "CleverG",
+              "Fuchio420"
+            ],
+            "sharedMatches": 88,
+            "wins": 36,
+            "winRate": 40.91
+          },
+          {
+            "players": [
+              "CleverG",
+              "Ethereal"
+            ],
+            "sharedMatches": 5,
+            "wins": 1,
+            "winRate": 20.0
+          },
+          {
+            "players": [
+              "Ethereal",
+              "Fuchio420"
+            ],
+            "sharedMatches": 5,
+            "wins": 0,
+            "winRate": 0.0
+          },
+          {
+            "players": [
+              "Cermi6666",
+              "CleverG"
+            ],
+            "sharedMatches": 1,
+            "wins": 1,
+            "winRate": 100.0
+          }
         ],
-        "sharedMatches": 4,
-        "wins": 3,
-        "winRate": 75
-      },
-      {
-        "players": [
-          "Jungler",
-          "Toplaner"
-        ],
-        "sharedMatches": 3,
-        "wins": 2,
-        "winRate": 66.67
+        "champions": [
+          {
+            "name": "Maokai",
+            "games": 13,
+            "wins": 6,
+            "winRate": 46.15
+          },
+          {
+            "name": "Chogath",
+            "games": 8,
+            "wins": 6,
+            "winRate": 75.0
+          },
+          {
+            "name": "AurelionSol",
+            "games": 6,
+            "wins": 5,
+            "winRate": 83.33
+          },
+          {
+            "name": "Zyra",
+            "games": 6,
+            "wins": 4,
+            "winRate": 66.67
+          },
+          {
+            "name": "Ornn",
+            "games": 5,
+            "wins": 0,
+            "winRate": 0.0
+          }
+        ]
       }
-    ],
-    "champions": [
-      {
-        "name": "Viego",
-        "games": 7,
-        "wins": 5,
-        "winRate": 71.43
-      },
-      {
-        "name": "Ahri",
-        "games": 6,
-        "wins": 4,
-        "winRate": 66.67
-      }
-    ]
+    }
   }
 }
-

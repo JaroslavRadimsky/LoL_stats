@@ -31,9 +31,14 @@ PLATFORM_TO_REGION = {
     "vn2": "sea",
 }
 
-RANKED_QUEUES = {
-    "RANKED_SOLO_5x5": "soloq",
-    "RANKED_FLEX_SR": "flex",
+MODE_QUEUES = {
+    "aram": [450],
+    "arena": [1700, 1710],
+}
+
+MODE_LABELS = {
+    "aram": "ARAM",
+    "arena": "Arena",
 }
 
 
@@ -67,8 +72,9 @@ def load_config(config_path: Path) -> dict[str, Any]:
         player["platform"] = platform
 
     config["title"] = config.get("title", "LoL Stats Dashboard")
-    config["match_count"] = int(config.get("match_count", 20))
-    config["queue"] = config.get("queue")
+    config["match_count"] = int(config.get("match_count", 100))
+    if config["match_count"] <= 0:
+        raise ValueError("'match_count' must be a positive integer.")
     return config
 
 
@@ -113,10 +119,6 @@ class RiotApiClient:
         url = f"https://{platform}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}"
         return self._request(url)
 
-    def get_ranked_entries(self, platform: str, summoner_id: str) -> list[dict[str, Any]]:
-        url = f"https://{platform}.api.riotgames.com/lol/league/v4/entries/by-summoner/{summoner_id}"
-        return self._request(url)
-
     def get_match_ids(self, region: str, puuid: str, *, count: int, queue: int | None = None) -> list[str]:
         url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
         params: dict[str, Any] = {"start": 0, "count": count}
@@ -133,45 +135,26 @@ class RiotApiClient:
         return match
 
 
-def build_ranked_summary(entries: list[dict[str, Any]]) -> dict[str, Any]:
-    result: dict[str, Any] = {"soloq": None, "flex": None}
-    for entry in entries:
-        target = RANKED_QUEUES.get(entry.get("queueType"))
-        if not target:
-            continue
-        wins = int(entry.get("wins", 0))
-        losses = int(entry.get("losses", 0))
-        result[target] = {
-            "tier": entry.get("tier", "UNRANKED"),
-            "rank": entry.get("rank", ""),
-            "leaguePoints": entry.get("leaguePoints", 0),
-            "wins": wins,
-            "losses": losses,
-            "winRate": round_stat(safe_div(wins, wins + losses) * 100),
-        }
-    return result
+def match_end_timestamp(match: dict[str, Any]) -> int:
+    return int(match.get("info", {}).get("gameEndTimestamp", 0))
 
 
-def extract_summoner_id(summoner: dict[str, Any]) -> str | None:
-    summoner_id = summoner.get("id") or summoner.get("summonerId")
-    if isinstance(summoner_id, str) and summoner_id:
-        return summoner_id
-    return None
-
-
-def fetch_ranked_summary(
+def collect_mode_matches(
     client: RiotApiClient,
-    platform: str,
-    summoner: dict[str, Any],
-    riot_id: str,
-) -> dict[str, Any]:
-    summoner_id = extract_summoner_id(summoner)
-    if not summoner_id:
-        print(
-            f"Warning: summoner response for {riot_id} did not include a usable summoner ID; skipping ranked data."
-        )
-        return {"soloq": None, "flex": None}
-    return build_ranked_summary(client.get_ranked_entries(platform, summoner_id))
+    region: str,
+    puuid: str,
+    *,
+    queue_ids: list[int],
+    match_count: int,
+) -> list[dict[str, Any]]:
+    candidate_ids: set[str] = set()
+    for queue_id in queue_ids:
+        for match_id in client.get_match_ids(region, puuid, count=match_count, queue=queue_id):
+            candidate_ids.add(match_id)
+
+    matches = [client.get_match(region, match_id) for match_id in candidate_ids]
+    matches.sort(key=match_end_timestamp, reverse=True)
+    return matches[:match_count]
 
 
 def find_participant(match: dict[str, Any], puuid: str) -> dict[str, Any] | None:
@@ -211,7 +194,6 @@ def champion_winrate(champion_stats: Counter[str], champion_wins: Counter[str]) 
 def build_player_summary(
     player: dict[str, Any],
     matches: list[dict[str, Any]],
-    ddragon_version: str,
 ) -> dict[str, Any]:
     totals = defaultdict(float)
     champion_counts: Counter[str] = Counter()
@@ -282,15 +264,6 @@ def build_player_summary(
     }
 
     return {
-        "id": player["id"],
-        "display_name": player["display_name"],
-        "riot_id": f'{player["game_name"]}#{player["tag_line"]}',
-        "puuid": player["puuid"],
-        "region": player["platform"],
-        "summoner_level": player["summoner_level"],
-        "profile_icon_id": player["profile_icon_id"],
-        "profile_icon_url": profile_icon_url(ddragon_version, player["profile_icon_id"]),
-        "ranked": player["ranked"],
         "summary": summary,
         "top_champions": champion_winrate(champion_counts, champion_wins),
         "recent_matches": sorted(recent_matches, key=lambda item: item["playedAt"], reverse=True)[:8],
@@ -357,23 +330,26 @@ def fetch_live_data(config: dict[str, Any], api_key: str) -> dict[str, Any]:
     client = RiotApiClient(api_key)
     ddragon_version = client.get_latest_ddragon_version()
     resolved_players: list[dict[str, Any]] = []
-    matches_by_id: dict[str, dict[str, Any]] = {}
+    mode_matches_by_id: dict[str, dict[str, Any]] = {mode: {} for mode in MODE_QUEUES}
 
     for index, player in enumerate(config["players"], start=1):
         platform = player["platform"]
         region = PLATFORM_TO_REGION[platform]
-        riot_id = f'{player["game_name"]}#{player["tag_line"]}'
         account = client.get_account_by_riot_id(region, player["game_name"], player["tag_line"])
         summoner = client.get_summoner_by_puuid(platform, account["puuid"])
-        ranked = fetch_ranked_summary(client, platform, summoner, riot_id)
-        match_ids = client.get_match_ids(
-            region,
-            account["puuid"],
-            count=config["match_count"],
-            queue=config.get("queue"),
-        )
-        for match_id in match_ids:
-            matches_by_id[match_id] = client.get_match(region, match_id)
+        mode_matches: dict[str, list[dict[str, Any]]] = {}
+
+        for mode, queue_ids in MODE_QUEUES.items():
+            matches = collect_mode_matches(
+                client,
+                region,
+                account["puuid"],
+                queue_ids=queue_ids,
+                match_count=config["match_count"],
+            )
+            mode_matches[mode] = matches
+            for match in matches:
+                mode_matches_by_id[mode][match["metadata"]["matchId"]] = match
 
         resolved_players.append(
             {
@@ -385,26 +361,52 @@ def fetch_live_data(config: dict[str, Any], api_key: str) -> dict[str, Any]:
                 "puuid": account["puuid"],
                 "summoner_level": summoner.get("summonerLevel", 0),
                 "profile_icon_id": summoner.get("profileIconId", 0),
-                "ranked": ranked,
+                "profile_icon_url": profile_icon_url(ddragon_version, summoner.get("profileIconId", 0)),
+                "mode_matches": mode_matches,
             }
         )
 
     player_outputs = []
     for player in resolved_players:
-        player_matches = [
-            match for match in matches_by_id.values() if find_participant(match, player["puuid"]) is not None
-        ]
-        player_outputs.append(build_player_summary(player, player_matches, ddragon_version))
+        player_outputs.append(
+            {
+                "id": player["id"],
+                "display_name": player["display_name"],
+                "riot_id": f'{player["game_name"]}#{player["tag_line"]}',
+                "puuid": player["puuid"],
+                "region": player["platform"],
+                "summoner_level": player["summoner_level"],
+                "profile_icon_id": player["profile_icon_id"],
+                "profile_icon_url": player["profile_icon_url"],
+                "modes": {
+                    mode: build_player_summary(player, matches)
+                    for mode, matches in player["mode_matches"].items()
+                },
+            }
+        )
 
     return {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "title": config["title"],
+        "defaultMode": "aram",
         "filters": {
             "matchCount": config["match_count"],
-            "queue": config.get("queue"),
+            "modes": [
+                {
+                    "id": mode,
+                    "label": MODE_LABELS[mode],
+                    "queues": MODE_QUEUES[mode],
+                }
+                for mode in MODE_QUEUES
+            ],
         },
         "players": player_outputs,
-        "group": build_group_summary(player_outputs, matches_by_id),
+        "group": {
+            "modes": {
+                mode: build_group_summary(resolved_players, matches)
+                for mode, matches in mode_matches_by_id.items()
+            }
+        },
     }
 
 
