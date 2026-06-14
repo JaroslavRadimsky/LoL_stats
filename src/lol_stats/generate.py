@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import time
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
@@ -40,6 +41,11 @@ MODE_LABELS = {
     "aram": "ARAM: Mayhem",
     "arena": "Arena 3v3",
 }
+
+COMMUNITY_DRAGON_ARENA_URL = "https://raw.communitydragon.org/latest/cdragon/arena/en_us.json"
+COMMUNITY_DRAGON_ASSET_BASE = (
+    "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default"
+)
 
 
 def safe_div(numerator: float, denominator: float) -> float:
@@ -176,6 +182,60 @@ def profile_icon_url(version: str, icon_id: int) -> str:
     return f"https://ddragon.leagueoflegends.com/cdn/{version}/img/profileicon/{icon_id}.png"
 
 
+def fetch_augment_catalog() -> dict[int, dict[str, Any]]:
+    try:
+        response = requests.get(COMMUNITY_DRAGON_ARENA_URL, timeout=30)
+        response.raise_for_status()
+        augments = response.json().get("augments", [])
+    except (requests.RequestException, ValueError, AttributeError):
+        return {}
+
+    catalog = {}
+    for augment in augments:
+        augment_id = augment.get("id")
+        if not isinstance(augment_id, int):
+            continue
+        icon_path = augment.get("iconSmall")
+        catalog[augment_id] = {
+            "id": augment_id,
+            "name": augment.get("name") or f"Augment {augment_id}",
+            "rarity": augment.get("rarity"),
+            "iconUrl": f"{COMMUNITY_DRAGON_ASSET_BASE}/{icon_path}" if icon_path else None,
+        }
+    return catalog
+
+
+def participant_augments(
+    participant: dict[str, Any],
+    augment_catalog: dict[int, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    augment_values = [
+        (int(match.group(1)), value)
+        for key, value in participant.items()
+        if (match := re.fullmatch(r"playerAugment(\d+)", key)) and isinstance(value, int) and value > 0
+    ]
+    augment_values.sort()
+
+    result = []
+    seen_ids: set[int] = set()
+    for _, augment_id in augment_values:
+        if augment_id in seen_ids:
+            continue
+        seen_ids.add(augment_id)
+        result.append(
+            augment_catalog.get(
+                augment_id,
+                {
+                    "id": augment_id,
+                    "name": f"Augment {augment_id}",
+                    "rarity": None,
+                    "iconUrl": None,
+                },
+            )
+        )
+    return result
+
+
 def champion_winrate(champion_stats: Counter[str], champion_wins: Counter[str]) -> list[dict[str, Any]]:
     items = []
     for champion, games in champion_stats.most_common(5):
@@ -194,6 +254,7 @@ def champion_winrate(champion_stats: Counter[str], champion_wins: Counter[str]) 
 def build_player_summary(
     player: dict[str, Any],
     matches: list[dict[str, Any]],
+    augment_catalog: dict[int, dict[str, Any]],
 ) -> dict[str, Any]:
     totals = defaultdict(float)
     champion_counts: Counter[str] = Counter()
@@ -240,6 +301,7 @@ def build_player_summary(
                 "gold": participant.get("goldEarned", 0),
                 "damage": participant.get("totalDamageDealtToChampions", 0),
                 "killParticipation": calculate_kill_participation(participant, participants),
+                "augments": participant_augments(participant, augment_catalog),
                 "playedAt": datetime.fromtimestamp(
                     match["info"].get("gameEndTimestamp", 0) / 1000, tz=timezone.utc
                 ).isoformat(),
@@ -329,6 +391,7 @@ def build_group_summary(players: list[dict[str, Any]], matches_by_id: dict[str, 
 def fetch_live_data(config: dict[str, Any], api_key: str) -> dict[str, Any]:
     client = RiotApiClient(api_key)
     ddragon_version = client.get_latest_ddragon_version()
+    augment_catalog = fetch_augment_catalog()
     resolved_players: list[dict[str, Any]] = []
     mode_matches_by_id: dict[str, dict[str, Any]] = {mode: {} for mode in MODE_QUEUES}
 
@@ -379,7 +442,7 @@ def fetch_live_data(config: dict[str, Any], api_key: str) -> dict[str, Any]:
                 "profile_icon_id": player["profile_icon_id"],
                 "profile_icon_url": player["profile_icon_url"],
                 "modes": {
-                    mode: build_player_summary(player, matches)
+                    mode: build_player_summary(player, matches, augment_catalog)
                     for mode, matches in player["mode_matches"].items()
                 },
             }

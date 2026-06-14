@@ -61,6 +61,7 @@ function createRecentRow(match) {
   const row = document.createElement("div");
   row.className = "recent-row";
   const resultClass = match.result === "Win" ? "win" : "loss";
+  const augments = match.augments ?? [];
   row.innerHTML = `
     <div class="row-top">
       <strong>${match.champion}</strong>
@@ -72,6 +73,24 @@ function createRecentRow(match) {
     <div class="recent-meta">
       ${formatDate(match.playedAt)}
     </div>
+    ${
+      augments.length
+        ? `<div class="augment-list" aria-label="Augmenty">${augments
+            .map(
+              (augment) => `
+                <div class="augment" title="${augment.name}">
+                  ${
+                    augment.iconUrl
+                      ? `<img src="${augment.iconUrl}" alt="" loading="lazy" />`
+                      : `<span class="augment-fallback">${augment.id}</span>`
+                  }
+                  <span>${augment.name}</span>
+                </div>
+              `,
+            )
+            .join("")}</div>`
+        : ""
+    }
   `;
   return row;
 }
@@ -150,11 +169,15 @@ function renderPlayer(player, modeId) {
   const summaryGrid = fragment.querySelector(".summary-grid");
   const champList = fragment.querySelector(".champ-list");
   const recentList = fragment.querySelector(".recent-list");
+  const recentCount = fragment.querySelector(".recent-count");
 
   avatar.src = player.profile_icon_url;
   avatar.alt = `${player.display_name} icon`;
   playerName.textContent = player.display_name;
   playerId.textContent = `${player.riot_id} · lvl ${player.summoner_level}`;
+  recentCount.textContent = modeData.recent_matches.length
+    ? `(${modeData.recent_matches.length})`
+    : "";
 
   summaryGrid.append(
     createStatPill("Hry", formatNumber(summary.matches)),
