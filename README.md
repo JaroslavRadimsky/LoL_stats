@@ -6,6 +6,7 @@ Python projekt, který stáhne statistiky z Riot API a vykreslí je do statické
 
 - Python skript načte Riot ID tebe a tvých kamarádů z `config/players.json`.
 - Zavolá Riot API a spočítá souhrny z posledních zápasů.
+- Pokud jsou nastavené Turso údaje, uloží nové zápasy do databáze a již známé zápasy znovu nestahuje.
 - Výsledek uloží do `docs/data/stats.json`.
 - Statický frontend v `docs/` si JSON načte a vykreslí dashboard.
 - GitHub Pages pak hostuje jen HTML, CSS, JS a vygenerovaný JSON.
@@ -39,6 +40,32 @@ Pro rychlý náhled webu můžeš použít třeba:
 ```powershell
 python -m http.server 8000 -d docs
 ```
+
+## Turso databáze
+
+Turso je volitelné při lokálním spuštění, ale doporučené pro pravidelné GitHub Actions buildy. Databáze uchovává celý původní Riot match JSON a zároveň normalizované tabulky:
+
+- `matches`
+- `participants`
+- `participant_augments`
+
+Po instalaci [Turso CLI](https://docs.turso.tech/cli/installation) vytvoř databázi:
+
+```bash
+turso auth login
+turso db create lol-stats
+turso db show --url lol-stats
+turso db tokens create lol-stats
+```
+
+Získané hodnoty nastav lokálně podle `.env.example`:
+
+```env
+TURSO_DATABASE_URL=libsql://...
+TURSO_AUTH_TOKEN=...
+```
+
+Při prvním generování se zápasy stáhnou z Riot API a uloží do Turso. Při dalších generováních se jejich detaily načtou z databáze a z Riot API se stáhnou pouze nové zápasy.
 
 ## Riot config
 
@@ -92,9 +119,10 @@ Repo už obsahuje workflow v `.github/workflows/deploy-pages.yml`.
 Na GitHubu stačí:
 
 1. Přidat secret `RIOT_API_KEY`.
-2. Nastavit GitHub Pages source na `GitHub Actions`.
-3. Přidat vlastní `config/players.json`.
-4. Pushnout repozitář.
+2. Přidat secrets `TURSO_DATABASE_URL` a `TURSO_AUTH_TOKEN`.
+3. Nastavit GitHub Pages source na `GitHub Actions`.
+4. Přidat vlastní `config/players.json`.
+5. Pushnout repozitář.
 
 Workflow při deployi:
 
@@ -111,4 +139,3 @@ Workflow při deployi:
 - poslední odehrané hry
 - společné zápasy mezi sledovanými hráči
 - jednoduchý přehled dvojic s nejlepší synergií
-

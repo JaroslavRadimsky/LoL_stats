@@ -13,6 +13,8 @@ from typing import Any
 import requests
 from dotenv import load_dotenv
 
+from .storage import TursoMatchStore
+
 PLATFORM_TO_REGION = {
     "br1": "americas",
     "eun1": "europe",
@@ -85,11 +87,17 @@ def load_config(config_path: Path) -> dict[str, Any]:
 
 
 class RiotApiClient:
-    def __init__(self, api_key: str, session: requests.Session | None = None) -> None:
+    def __init__(
+        self,
+        api_key: str,
+        session: requests.Session | None = None,
+        match_store: TursoMatchStore | None = None,
+    ) -> None:
         self.session = session or requests.Session()
         self.session.headers.update({"X-Riot-Token": api_key})
         self._match_cache: dict[str, dict[str, Any]] = {}
         self._ddragon_version: str | None = None
+        self.match_store = match_store
 
     def _request(self, url: str, *, params: dict[str, Any] | None = None) -> Any:
         attempts = 0
@@ -135,9 +143,16 @@ class RiotApiClient:
     def get_match(self, region: str, match_id: str) -> dict[str, Any]:
         if match_id in self._match_cache:
             return self._match_cache[match_id]
+        if self.match_store:
+            stored_match = self.match_store.get_match(match_id)
+            if stored_match:
+                self._match_cache[match_id] = stored_match
+                return stored_match
         url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/{match_id}"
         match = self._request(url)
         self._match_cache[match_id] = match
+        if self.match_store:
+            self.match_store.save_match(region, match)
         return match
 
 
@@ -388,8 +403,12 @@ def build_group_summary(players: list[dict[str, Any]], matches_by_id: dict[str, 
     }
 
 
-def fetch_live_data(config: dict[str, Any], api_key: str) -> dict[str, Any]:
-    client = RiotApiClient(api_key)
+def fetch_live_data(
+    config: dict[str, Any],
+    api_key: str,
+    match_store: TursoMatchStore | None = None,
+) -> dict[str, Any]:
+    client = RiotApiClient(api_key, match_store=match_store)
     ddragon_version = client.get_latest_ddragon_version()
     augment_catalog = fetch_augment_catalog()
     resolved_players: list[dict[str, Any]] = []
@@ -494,7 +513,22 @@ def main() -> None:
     if not api_key:
         raise SystemExit("Missing RIOT_API_KEY. Add it to your environment or .env file.")
 
-    config = load_config(Path(args.config))
-    data = fetch_live_data(config, api_key)
-    write_output(data, Path(args.output))
-    print(f"Generated stats for {len(data['players'])} players -> {args.output}")
+    database_url = os.getenv("TURSO_DATABASE_URL")
+    auth_token = os.getenv("TURSO_AUTH_TOKEN")
+    if bool(database_url) != bool(auth_token):
+        raise SystemExit("Set both TURSO_DATABASE_URL and TURSO_AUTH_TOKEN, or neither.")
+
+    match_store = TursoMatchStore(database_url, auth_token) if database_url and auth_token else None
+    try:
+        config = load_config(Path(args.config))
+        data = fetch_live_data(config, api_key, match_store)
+        write_output(data, Path(args.output))
+        print(f"Generated stats for {len(data['players'])} players -> {args.output}")
+        if match_store:
+            print(
+                f"Turso match cache: {match_store.cache_hits} hits, "
+                f"{match_store.cache_writes} new matches."
+            )
+    finally:
+        if match_store:
+            match_store.close()

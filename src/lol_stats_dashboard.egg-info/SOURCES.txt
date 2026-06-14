@@ -3,6 +3,7 @@ pyproject.toml
 src/lol_stats/__init__.py
 src/lol_stats/__main__.py
 src/lol_stats/generate.py
+src/lol_stats/storage.py
 src/lol_stats_dashboard.egg-info/PKG-INFO
 src/lol_stats_dashboard.egg-info/SOURCES.txt
 src/lol_stats_dashboard.egg-info/dependency_links.txt

@@ -4,6 +4,7 @@ Version: 0.1.0
 Summary: Static League of Legends stats dashboard powered by Riot API and GitHub Pages.
 Requires-Python: >=3.11
 Description-Content-Type: text/markdown
+Requires-Dist: libsql>=0.1.11
 Requires-Dist: python-dotenv>=1.0.1
 Requires-Dist: requests>=2.32.0
 

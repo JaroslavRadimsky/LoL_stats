@@ -9,6 +9,7 @@ description = "Static League of Legends stats dashboard powered by Riot API and 
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+  "libsql>=0.1.11",
   "python-dotenv>=1.0.1",
   "requests>=2.32.0",
 ]
@@ -21,4 +22,3 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
