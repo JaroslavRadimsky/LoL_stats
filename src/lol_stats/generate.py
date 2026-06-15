@@ -63,6 +63,12 @@ ENCHANTER_CHAMPIONS = {
     "Yuumi",
     "Zilean",
 }
+EXCLUDED_TOP_AUGMENT_NAMES = {
+    "compulsion for power",
+    "gain a prismatic stat anvil",
+    "level augments",
+    "replace augment",
+}
 
 
 def safe_div(numerator: float, denominator: float) -> float:
@@ -288,6 +294,11 @@ def participant_augments(
     return result
 
 
+def is_top_augment_candidate(augment: dict[str, Any]) -> bool:
+    name = " ".join(str(augment.get("name", "")).casefold().split())
+    return name not in EXCLUDED_TOP_AUGMENT_NAMES
+
+
 def champion_winrate(champion_stats: Counter[str], champion_wins: Counter[str]) -> list[dict[str, Any]]:
     items = []
     for champion, games in champion_stats.most_common(5):
@@ -356,6 +367,8 @@ def build_player_summary(
 
         augments = participant_augments(participant, augment_catalog)
         for augment in augments:
+            if not is_top_augment_candidate(augment):
+                continue
             augment_id = augment["id"]
             augment_counts[augment_id] += 1
             augment_details[augment_id] = augment
@@ -368,6 +381,9 @@ def build_player_summary(
         totals["cs"] += total_cs
         totals["gold"] += participant.get("goldEarned", 0)
         totals["damage"] += participant.get("totalDamageDealtToChampions", 0)
+        totals["cc"] += participant.get("timeCCingOthers", 0)
+        totals["healing"] += participant.get("totalHealsOnTeammates", 0)
+        totals["shielding"] += participant.get("totalDamageShieldedOnTeammates", 0)
         totals["kp"] += calculate_kill_participation(participant, participants)
 
         recent_matches.append(
@@ -409,6 +425,9 @@ def build_player_summary(
         "avgCs": round_stat(safe_div(totals["cs"], games)),
         "avgGold": round_stat(safe_div(totals["gold"], games)),
         "avgDamage": round_stat(safe_div(totals["damage"], games)),
+        "avgCcSeconds": round_stat(safe_div(totals["cc"], games)),
+        "avgHealing": round_stat(safe_div(totals["healing"], games)),
+        "avgShielding": round_stat(safe_div(totals["shielding"], games)),
         "avgKillParticipation": round_stat(safe_div(totals["kp"], games)),
     }
 

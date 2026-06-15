@@ -5,6 +5,21 @@ const state = {
   activeMode: null,
 };
 
+const excludedTopAugmentNames = new Set([
+  "compulsion for power",
+  "gain a prismatic stat anvil",
+  "level augments",
+  "replace augment",
+]);
+
+function isTopAugmentCandidate(augment) {
+  const normalizedName = String(augment.name ?? "")
+    .toLocaleLowerCase("en-US")
+    .trim()
+    .replace(/\s+/g, " ");
+  return !excludedTopAugmentNames.has(normalizedName);
+}
+
 function formatPercent(value) {
   return `${Number(value ?? 0).toFixed(1)}\u00a0%`;
 }
@@ -149,6 +164,9 @@ function deriveTopAugments(matches) {
   const stats = new Map();
   matches.forEach((match) => {
     (match.augments ?? []).forEach((augment) => {
+      if (!isTopAugmentCandidate(augment)) {
+        return;
+      }
       const current = stats.get(augment.id) ?? { ...augment, games: 0, wins: 0 };
       current.games += 1;
       current.wins += match.result === "Win" ? 1 : 0;
@@ -178,6 +196,9 @@ function getPlayerMode(player, modeId) {
         winRate: 0,
         avgKda: 0,
         avgDamage: 0,
+        avgCcSeconds: 0,
+        avgHealing: 0,
+        avgShielding: 0,
         avgKillParticipation: 0,
       },
       top_champions: [],
@@ -209,6 +230,7 @@ function renderPlayer(player, modeId) {
   const card = fragment.querySelector(".player-card");
   const avatar = fragment.querySelector(".avatar");
   const summaryGrid = fragment.querySelector(".summary-grid");
+  const detailMetrics = fragment.querySelector(".detail-metrics");
   const champList = fragment.querySelector(".champ-list");
   const roleChart = fragment.querySelector(".role-chart");
   const topAugmentList = fragment.querySelector(".top-augment-list");
@@ -232,7 +254,12 @@ function renderPlayer(player, modeId) {
     createStatPill("Hry", formatNumber(summary.matches)),
     createStatPill("Winrate", formatPercent(summary.winRate)),
     modeSpecificStat,
+  );
+  detailMetrics.append(
     createStatPill("Damage", formatNumber(Math.round(summary.avgDamage ?? 0))),
+    createStatPill("CC", `${formatNumber(Math.round(summary.avgCcSeconds ?? 0))} s`),
+    createStatPill("Healing allies", formatNumber(Math.round(summary.avgHealing ?? 0))),
+    createStatPill("Shielding allies", formatNumber(Math.round(summary.avgShielding ?? 0))),
   );
 
   if (modeData.top_champions.length === 0) {
@@ -249,7 +276,7 @@ function renderPlayer(player, modeId) {
 
   const topAugments =
     (modeData.top_augments ?? []).length > 0
-      ? modeData.top_augments
+      ? modeData.top_augments.filter(isTopAugmentCandidate)
       : deriveTopAugments(modeData.recent_matches);
   if (topAugments.length === 0) {
     topAugmentList.append(createEmptyMessage("V tomto módu nejsou dostupné augmenty."));

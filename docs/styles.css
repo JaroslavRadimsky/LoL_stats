@@ -173,7 +173,8 @@ h1 {
 }
 
 .metrics,
-.summary-grid {
+.summary-grid,
+.detail-metrics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
@@ -289,6 +290,17 @@ h1 {
 
 .player-detail[hidden] {
   display: none;
+}
+
+.performance-section {
+  padding: 16px;
+  border: 1px solid rgba(104, 215, 255, 0.2);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(104, 215, 255, 0.08), rgba(255, 255, 255, 0.02));
+}
+
+.detail-metrics {
+  margin-top: 12px;
 }
 
 .detail-grid {
