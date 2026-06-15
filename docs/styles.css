@@ -218,6 +218,16 @@ h1 {
 .player-card {
   border-radius: 24px;
   padding: 20px;
+  min-width: 0;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.player-card.is-expanded {
+  grid-column: 1 / -1;
+  border-color: rgba(104, 215, 255, 0.35);
+  background: rgba(12, 25, 45, 0.94);
 }
 
 .player-head {
@@ -240,34 +250,70 @@ h1 {
   font-size: 1.35rem;
 }
 
-.subsection {
-  margin-top: 16px;
+.player-identity {
+  min-width: 0;
 }
 
-.champ-list,
-.recent-list {
-  display: grid;
-  gap: 10px;
-  margin-top: 12px;
+.player-id {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.recent-section summary {
+.player-toggle {
   display: flex;
+  width: 100%;
   justify-content: space-between;
+  align-items: center;
   gap: 12px;
+  margin-top: 16px;
   padding: 12px 14px;
   border: 1px solid var(--line);
   border-radius: 14px;
   color: var(--text);
   background: rgba(255, 255, 255, 0.04);
   cursor: pointer;
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 600;
-  list-style-position: inside;
+  font: 600 0.9rem "Space Grotesk", sans-serif;
 }
 
-.recent-section[open] summary {
-  border-color: rgba(104, 215, 255, 0.35);
+.player-toggle:hover,
+.player-toggle[aria-expanded="true"] {
+  border-color: rgba(104, 215, 255, 0.42);
+  background: rgba(104, 215, 255, 0.08);
+}
+
+.toggle-icon {
+  color: var(--cyan);
+  font-size: 1.25rem;
+}
+
+.player-detail[hidden] {
+  display: none;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.subsection {
+  margin-top: 16px;
+}
+
+.champ-list,
+.recent-list,
+.role-chart {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.subsection-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
 }
 
 .recent-count {
@@ -275,8 +321,19 @@ h1 {
 }
 
 .champ-row,
-.recent-row {
+.recent-row,
+.role-row {
   padding: 12px 14px;
+}
+
+.role-row {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+}
+
+.role-bar > span {
+  background: linear-gradient(90deg, #bb8cff, var(--cyan));
 }
 
 .row-top {
@@ -315,6 +372,7 @@ h1 {
 
 .augment-list {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 6px;
   margin-top: 10px;
 }
@@ -346,6 +404,44 @@ h1 {
   font-size: 0.6rem;
 }
 
+.top-augment-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.top-augment {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(245, 199, 104, 0.1), var(--panel));
+}
+
+.top-augment img,
+.top-augment > .augment-fallback {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+}
+
+.top-augment strong,
+.top-augment .champ-meta {
+  display: block;
+}
+
+.top-augment .champ-meta {
+  margin-top: 3px;
+}
+
+.player-card.is-expanded .recent-list {
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
 @media (max-width: 860px) {
   .hero {
     grid-template-columns: 1fr;
@@ -357,6 +453,10 @@ h1 {
   }
 
   .player-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-grid {
     grid-template-columns: 1fr;
   }
 }

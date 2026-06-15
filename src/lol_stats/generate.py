@@ -48,6 +48,21 @@ COMMUNITY_DRAGON_ARENA_URL = "https://raw.communitydragon.org/latest/cdragon/are
 COMMUNITY_DRAGON_ASSET_BASE = (
     "https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default"
 )
+ENCHANTER_CHAMPIONS = {
+    "Ivern",
+    "Janna",
+    "Karma",
+    "Lulu",
+    "Milio",
+    "Nami",
+    "Renata",
+    "Renata Glasc",
+    "Seraphine",
+    "Sona",
+    "Soraka",
+    "Yuumi",
+    "Zilean",
+}
 
 
 def safe_div(numerator: float, denominator: float) -> float:
@@ -220,6 +235,28 @@ def fetch_augment_catalog() -> dict[int, dict[str, Any]]:
     return catalog
 
 
+def fetch_champion_catalog(version: str) -> dict[str, list[str]]:
+    url = f"https://ddragon.leagueoflegends.com/cdn/{version}/data/en_US/champion.json"
+    try:
+        response = requests.get(url, timeout=30)
+        response.raise_for_status()
+        champions = response.json().get("data", {})
+    except (requests.RequestException, ValueError, AttributeError):
+        return {}
+
+    return {
+        champion.get("name", champion_id): champion.get("tags", [])
+        for champion_id, champion in champions.items()
+    }
+
+
+def champion_role(champion: str, champion_catalog: dict[str, list[str]]) -> str:
+    if champion in ENCHANTER_CHAMPIONS:
+        return "Enchanter"
+    tags = champion_catalog.get(champion, [])
+    return tags[0] if tags else "Unknown"
+
+
 def participant_augments(
     participant: dict[str, Any],
     augment_catalog: dict[int, dict[str, Any]],
@@ -266,14 +303,38 @@ def champion_winrate(champion_stats: Counter[str], champion_wins: Counter[str]) 
     return items
 
 
+def augment_winrate(
+    augment_stats: Counter[int],
+    augment_wins: Counter[int],
+    augment_details: dict[int, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    items = []
+    for augment_id, games in augment_stats.most_common(6):
+        wins = augment_wins[augment_id]
+        items.append(
+            {
+                **augment_details[augment_id],
+                "games": games,
+                "wins": wins,
+                "winRate": round_stat(safe_div(wins, games) * 100),
+            }
+        )
+    return items
+
+
 def build_player_summary(
     player: dict[str, Any],
     matches: list[dict[str, Any]],
     augment_catalog: dict[int, dict[str, Any]],
+    champion_catalog: dict[str, list[str]],
 ) -> dict[str, Any]:
     totals = defaultdict(float)
     champion_counts: Counter[str] = Counter()
     champion_wins: Counter[str] = Counter()
+    augment_counts: Counter[int] = Counter()
+    augment_wins: Counter[int] = Counter()
+    augment_details: dict[int, dict[str, Any]] = {}
+    role_counts: Counter[str] = Counter()
     recent_matches: list[dict[str, Any]] = []
     wins = 0
 
@@ -290,6 +351,16 @@ def build_player_summary(
         champion_counts[champion] += 1
         if won:
             champion_wins[champion] += 1
+        role = champion_role(champion, champion_catalog)
+        role_counts[role] += 1
+
+        augments = participant_augments(participant, augment_catalog)
+        for augment in augments:
+            augment_id = augment["id"]
+            augment_counts[augment_id] += 1
+            augment_details[augment_id] = augment
+            if won:
+                augment_wins[augment_id] += 1
 
         totals["kills"] += participant.get("kills", 0)
         totals["deaths"] += participant.get("deaths", 0)
@@ -316,7 +387,8 @@ def build_player_summary(
                 "gold": participant.get("goldEarned", 0),
                 "damage": participant.get("totalDamageDealtToChampions", 0),
                 "killParticipation": calculate_kill_participation(participant, participants),
-                "augments": participant_augments(participant, augment_catalog),
+                "augments": augments,
+                "role": role,
                 "playedAt": datetime.fromtimestamp(
                     match["info"].get("gameEndTimestamp", 0) / 1000, tz=timezone.utc
                 ).isoformat(),
@@ -333,7 +405,7 @@ def build_player_summary(
         "avgKills": round_stat(safe_div(totals["kills"], games)),
         "avgDeaths": round_stat(avg_deaths),
         "avgAssists": round_stat(safe_div(totals["assists"], games)),
-        "avgKda": round_stat(safe_div(totals["kills"] + totals["assists"], max(avg_deaths, 1))),
+        "avgKda": round_stat(safe_div(totals["kills"] + totals["assists"], max(totals["deaths"], 1))),
         "avgCs": round_stat(safe_div(totals["cs"], games)),
         "avgGold": round_stat(safe_div(totals["gold"], games)),
         "avgDamage": round_stat(safe_div(totals["damage"], games)),
@@ -343,6 +415,15 @@ def build_player_summary(
     return {
         "summary": summary,
         "top_champions": champion_winrate(champion_counts, champion_wins),
+        "top_augments": augment_winrate(augment_counts, augment_wins, augment_details),
+        "role_distribution": [
+            {
+                "role": role,
+                "games": count,
+                "share": round_stat(safe_div(count, sum(role_counts.values())) * 100),
+            }
+            for role, count in role_counts.most_common()
+        ],
         "recent_matches": sorted(recent_matches, key=lambda item: item["playedAt"], reverse=True)[:8],
     }
 
@@ -411,6 +492,7 @@ def fetch_live_data(
     client = RiotApiClient(api_key, match_store=match_store)
     ddragon_version = client.get_latest_ddragon_version()
     augment_catalog = fetch_augment_catalog()
+    champion_catalog = fetch_champion_catalog(ddragon_version)
     resolved_players: list[dict[str, Any]] = []
     mode_matches_by_id: dict[str, dict[str, Any]] = {mode: {} for mode in MODE_QUEUES}
 
@@ -461,7 +543,7 @@ def fetch_live_data(
                 "profile_icon_id": player["profile_icon_id"],
                 "profile_icon_url": player["profile_icon_url"],
                 "modes": {
-                    mode: build_player_summary(player, matches, augment_catalog)
+                    mode: build_player_summary(player, matches, augment_catalog, champion_catalog)
                     for mode, matches in player["mode_matches"].items()
                 },
             }

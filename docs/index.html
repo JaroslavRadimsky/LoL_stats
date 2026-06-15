@@ -59,7 +59,7 @@
       <article class="player-card">
         <div class="player-head">
           <img class="avatar" alt="" />
-          <div>
+          <div class="player-identity">
             <h3 class="player-name"></h3>
             <p class="player-id"></p>
           </div>
@@ -67,18 +67,34 @@
 
         <div class="summary-grid"></div>
 
-        <div class="subsection">
-          <h4>Top championi</h4>
-          <div class="champ-list"></div>
-        </div>
+        <button class="player-toggle" type="button" aria-expanded="false">
+          <span>Zobrazit detail hráče</span>
+          <span class="toggle-icon" aria-hidden="true">+</span>
+        </button>
 
-        <details class="subsection recent-section">
-          <summary>
-            <span>Posledni hry</span>
-            <span class="recent-count"></span>
-          </summary>
-          <div class="recent-list"></div>
-        </details>
+        <div class="player-detail" hidden>
+          <div class="detail-grid">
+            <section class="subsection">
+              <h4>Top championi</h4>
+              <div class="champ-list"></div>
+            </section>
+            <section class="subsection">
+              <h4>Champion role</h4>
+              <div class="role-chart"></div>
+            </section>
+          </div>
+          <section class="subsection augment-section">
+            <h4>Top augmenty</h4>
+            <div class="top-augment-list"></div>
+          </section>
+          <section class="subsection recent-section">
+            <div class="subsection-heading">
+              <h4>Poslední hry</h4>
+              <span class="recent-count"></span>
+            </div>
+            <div class="recent-list"></div>
+          </section>
+        </div>
       </article>
     </template>
 

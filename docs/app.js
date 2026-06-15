@@ -6,7 +6,7 @@ const state = {
 };
 
 function formatPercent(value) {
-  return `${Number(value ?? 0).toFixed(1)} %`;
+  return `${Number(value ?? 0).toFixed(1)}\u00a0%`;
 }
 
 function formatNumber(value) {
@@ -15,7 +15,7 @@ function formatNumber(value) {
 
 function formatDate(isoString) {
   if (!isoString) {
-    return "nezname";
+    return "neznámé";
   }
   return new Intl.DateTimeFormat("cs-CZ", {
     dateStyle: "medium",
@@ -50,29 +50,31 @@ function createChampionRow(champion) {
   row.innerHTML = `
     <div class="row-top">
       <strong>${champion.name}</strong>
-      <span class="champ-meta">${champion.games} her · ${formatPercent(champion.winRate)}</span>
+      <span class="champ-meta">${champion.games} her &middot; ${formatPercent(champion.winRate)}</span>
     </div>
     <div class="bar"><span style="width:${Math.max(champion.winRate, 4)}%"></span></div>
   `;
   return row;
 }
 
-function createRecentRow(match) {
+function createRecentRow(match, modeId) {
   const row = document.createElement("div");
   row.className = "recent-row";
   const resultClass = match.result === "Win" ? "win" : "loss";
   const augments = match.augments ?? [];
+  const performance =
+    modeId === "arena"
+      ? `${formatNumber(match.damage)} damage`
+      : `KDA ${match.kda} &middot; ${match.cs} CS`;
   row.innerHTML = `
     <div class="row-top">
       <strong>${match.champion}</strong>
       <span class="recent-result ${resultClass}">${match.result}</span>
     </div>
     <div class="recent-meta">
-      ${match.kills}/${match.deaths}/${match.assists} · KDA ${match.kda} · ${match.cs} CS
+      ${match.kills}/${match.deaths}/${match.assists} &middot; ${performance}
     </div>
-    <div class="recent-meta">
-      ${formatDate(match.playedAt)}
-    </div>
+    <div class="recent-meta">${formatDate(match.playedAt)}</div>
     ${
       augments.length
         ? `<div class="augment-list" aria-label="Augmenty">${augments
@@ -95,13 +97,43 @@ function createRecentRow(match) {
   return row;
 }
 
+function createTopAugment(augment) {
+  const item = document.createElement("div");
+  item.className = "top-augment";
+  item.innerHTML = `
+    ${
+      augment.iconUrl
+        ? `<img src="${augment.iconUrl}" alt="" loading="lazy" />`
+        : `<span class="augment-fallback">${augment.id}</span>`
+    }
+    <div>
+      <strong>${augment.name}</strong>
+      <span class="champ-meta">${augment.games} výběrů &middot; ${formatPercent(augment.winRate)}</span>
+    </div>
+  `;
+  return item;
+}
+
+function createRoleRow(role) {
+  const row = document.createElement("div");
+  row.className = "role-row";
+  row.innerHTML = `
+    <div class="row-top">
+      <strong>${role.role}</strong>
+      <span class="champ-meta">${role.games} her &middot; ${formatPercent(role.share)}</span>
+    </div>
+    <div class="bar role-bar"><span style="width:${Math.max(role.share, 3)}%"></span></div>
+  `;
+  return row;
+}
+
 function createPairCard(pair) {
   const card = document.createElement("div");
   card.className = "pair-card";
   card.innerHTML = `
     <span class="meta-label">${pair.players.join(" + ")}</span>
     <strong>${formatPercent(pair.winRate)}</strong>
-    <small class="champ-meta">${pair.sharedMatches} spolecnych her</small>
+    <small class="champ-meta">${pair.sharedMatches} společných her</small>
   `;
   return card;
 }
@@ -111,6 +143,22 @@ function createEmptyMessage(text) {
   empty.className = "champ-meta";
   empty.textContent = text;
   return empty;
+}
+
+function deriveTopAugments(matches) {
+  const stats = new Map();
+  matches.forEach((match) => {
+    (match.augments ?? []).forEach((augment) => {
+      const current = stats.get(augment.id) ?? { ...augment, games: 0, wins: 0 };
+      current.games += 1;
+      current.wins += match.result === "Win" ? 1 : 0;
+      stats.set(augment.id, current);
+    });
+  });
+  return [...stats.values()]
+    .sort((left, right) => right.games - left.games)
+    .slice(0, 6)
+    .map((augment) => ({ ...augment, winRate: (augment.wins / augment.games) * 100 }));
 }
 
 function getModeDefinition(data, modeId) {
@@ -128,16 +176,13 @@ function getPlayerMode(player, modeId) {
         matches: 0,
         wins: 0,
         winRate: 0,
-        avgKills: 0,
-        avgDeaths: 0,
-        avgAssists: 0,
         avgKda: 0,
-        avgCs: 0,
-        avgGold: 0,
         avgDamage: 0,
         avgKillParticipation: 0,
       },
       top_champions: [],
+      top_augments: [],
+      role_distribution: [],
       recent_matches: [],
     }
   );
@@ -159,44 +204,75 @@ function getGroupMode(data, modeId) {
 function renderPlayer(player, modeId) {
   const modeData = getPlayerMode(player, modeId);
   const summary = modeData.summary;
-
   const template = document.getElementById("player-card-template");
   const fragment = template.content.cloneNode(true);
   const card = fragment.querySelector(".player-card");
   const avatar = fragment.querySelector(".avatar");
-  const playerName = fragment.querySelector(".player-name");
-  const playerId = fragment.querySelector(".player-id");
   const summaryGrid = fragment.querySelector(".summary-grid");
   const champList = fragment.querySelector(".champ-list");
+  const roleChart = fragment.querySelector(".role-chart");
+  const topAugmentList = fragment.querySelector(".top-augment-list");
   const recentList = fragment.querySelector(".recent-list");
-  const recentCount = fragment.querySelector(".recent-count");
+  const playerToggle = fragment.querySelector(".player-toggle");
+  const playerDetail = fragment.querySelector(".player-detail");
 
   avatar.src = player.profile_icon_url;
   avatar.alt = `${player.display_name} icon`;
-  playerName.textContent = player.display_name;
-  playerId.textContent = `${player.riot_id} · lvl ${player.summoner_level}`;
-  recentCount.textContent = modeData.recent_matches.length
-    ? `(${modeData.recent_matches.length})`
+  fragment.querySelector(".player-name").textContent = player.display_name;
+  fragment.querySelector(".player-id").textContent = `${player.riot_id} · lvl ${player.summoner_level}`;
+  fragment.querySelector(".recent-count").textContent = modeData.recent_matches.length
+    ? `${modeData.recent_matches.length} her`
     : "";
 
+  const modeSpecificStat =
+    modeId === "arena"
+      ? createStatPill("Kill participation", formatPercent(summary.avgKillParticipation))
+      : createStatPill("KDA", Number(summary.avgKda ?? 0).toFixed(2));
   summaryGrid.append(
     createStatPill("Hry", formatNumber(summary.matches)),
     createStatPill("Winrate", formatPercent(summary.winRate)),
-    createStatPill("KDA", Number(summary.avgKda ?? 0).toFixed(2)),
+    modeSpecificStat,
     createStatPill("Damage", formatNumber(Math.round(summary.avgDamage ?? 0))),
   );
 
   if (modeData.top_champions.length === 0) {
-    champList.append(createEmptyMessage("Zatim bez nactenych her v tomhle modu."));
+    champList.append(createEmptyMessage("Zatím bez načtených her v tomhle módu."));
   } else {
     modeData.top_champions.forEach((champion) => champList.append(createChampionRow(champion)));
   }
 
-  if (modeData.recent_matches.length === 0) {
-    recentList.append(createEmptyMessage("Zadne zapasy pro vybrany mod."));
+  if ((modeData.role_distribution ?? []).length === 0) {
+    roleChart.append(createEmptyMessage("Role se doplní při příštím generování dat."));
   } else {
-    modeData.recent_matches.forEach((match) => recentList.append(createRecentRow(match)));
+    modeData.role_distribution.forEach((role) => roleChart.append(createRoleRow(role)));
   }
+
+  const topAugments =
+    (modeData.top_augments ?? []).length > 0
+      ? modeData.top_augments
+      : deriveTopAugments(modeData.recent_matches);
+  if (topAugments.length === 0) {
+    topAugmentList.append(createEmptyMessage("V tomto módu nejsou dostupné augmenty."));
+  } else {
+    topAugments.forEach((augment) => topAugmentList.append(createTopAugment(augment)));
+  }
+
+  if (modeData.recent_matches.length === 0) {
+    recentList.append(createEmptyMessage("Žádné zápasy pro vybraný mód."));
+  } else {
+    modeData.recent_matches.forEach((match) => recentList.append(createRecentRow(match, modeId)));
+  }
+
+  playerToggle.addEventListener("click", () => {
+    const willOpen = playerDetail.hidden;
+    playerDetail.hidden = !willOpen;
+    playerToggle.setAttribute("aria-expanded", String(willOpen));
+    playerToggle.querySelector("span:first-child").textContent = willOpen
+      ? "Skrýt detail hráče"
+      : "Zobrazit detail hráče";
+    playerToggle.querySelector(".toggle-icon").textContent = willOpen ? "−" : "+";
+    card.classList.toggle("is-expanded", willOpen);
+  });
 
   return card;
 }
@@ -205,19 +281,17 @@ function renderModeSwitch() {
   const data = state.data;
   const modeSwitch = document.getElementById("mode-switch");
   modeSwitch.innerHTML = "";
-
   data.filters.modes.forEach((mode) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = `mode-button${mode.id === state.activeMode ? " is-active" : ""}`;
     button.textContent = mode.label;
     button.addEventListener("click", () => {
-      if (state.activeMode === mode.id) {
-        return;
+      if (state.activeMode !== mode.id) {
+        state.activeMode = mode.id;
+        renderModeSwitch();
+        renderDashboard();
       }
-      state.activeMode = mode.id;
-      renderModeSwitch();
-      renderDashboard();
     });
     modeSwitch.append(button);
   });
@@ -230,29 +304,29 @@ function renderDashboard() {
 
   document.getElementById("page-title").textContent = data.title || "LoL Stats Dashboard";
   document.getElementById("page-subtitle").textContent =
-    `Poslednich ${data.filters.matchCount} ${modeLabel} her na hrace. Prepinac okamzite meni pohled mezi ARAM a Arena statistikami.`;
+    `Posledních ${data.filters.matchCount} ${modeLabel} her na hráče. Přepínač okamžitě mění pohled mezi ARAM a Arena statistikami.`;
   document.getElementById("generated-at").textContent = formatDate(data.generated_at);
   document.getElementById("shared-matches").textContent = formatNumber(group.sharedMatches);
   document.getElementById("filter-summary").textContent =
-    `${data.players.length} hracu · ${modeLabel} · ${group.sharedMatches} spolecnych zapasu`;
+    `${data.players.length} hráčů · ${modeLabel} · ${group.sharedMatches} společných zápasů`;
 
   const groupMetrics = document.getElementById("group-metrics");
   groupMetrics.innerHTML = "";
   groupMetrics.append(
-    createMetricCard("Pocet hracu", formatNumber(group.trackedPlayers), "sledovanych Riot ID"),
-    createMetricCard("Squad winrate", formatPercent(group.winRate), `ve vybranem modu ${modeLabel}`),
-    createMetricCard("Vyhry", formatNumber(group.wins), "sdilene hry"),
+    createMetricCard("Počet hráčů", formatNumber(group.trackedPlayers), "sledovaných Riot ID"),
+    createMetricCard("Squad winrate", formatPercent(group.winRate), `ve vybraném módu ${modeLabel}`),
+    createMetricCard("Výhry", formatNumber(group.wins), "sdílené hry"),
     createMetricCard(
-      "Nejhranejsi pick",
+      "Nejhranější pick",
       group.champions[0]?.name ?? "n/a",
-      group.champions[0] ? `${group.champions[0].games} her` : "zatim bez dat",
+      group.champions[0] ? `${group.champions[0].games} her` : "zatím bez dat",
     ),
   );
 
   const pairings = document.getElementById("pairings");
   pairings.innerHTML = "";
   if (group.pairings.length === 0) {
-    pairings.append(createEmptyMessage("Zatim nejsou k dispozici spolecne dvojice."));
+    pairings.append(createEmptyMessage("Zatím nejsou k dispozici společné dvojice."));
   } else {
     group.pairings.forEach((pair) => pairings.append(createPairCard(pair)));
   }
@@ -263,28 +337,11 @@ function renderDashboard() {
 }
 
 async function loadData() {
-  if (typeof window.fetch === "function") {
-    const response = await window.fetch(dataUrl, { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`Nepodarilo se nacist ${dataUrl}`);
-    }
-    return response.json();
+  const response = await window.fetch(dataUrl, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Nepodařilo se načíst ${dataUrl}`);
   }
-
-  return new Promise((resolve, reject) => {
-    const request = new XMLHttpRequest();
-    request.open("GET", dataUrl, true);
-    request.responseType = "json";
-    request.onload = () => {
-      if (request.status >= 200 && request.status < 300) {
-        resolve(request.response);
-      } else {
-        reject(new Error(`Nepodarilo se nacist ${dataUrl}`));
-      }
-    };
-    request.onerror = () => reject(new Error(`Nepodarilo se nacist ${dataUrl}`));
-    request.send();
-  });
+  return response.json();
 }
 
 async function main() {
@@ -295,13 +352,13 @@ async function main() {
     renderModeSwitch();
     renderDashboard();
   } catch (error) {
-    document.getElementById("filter-summary").textContent = "Nacitani selhalo.";
+    document.getElementById("filter-summary").textContent = "Načítání selhalo.";
     const playerGrid = document.getElementById("player-grid");
     const message = document.createElement("article");
     message.className = "player-card";
     message.innerHTML = `
       <h3>Data nejsou k dispozici</h3>
-      <p class="hero-text">Zkontroluj, ze existuje soubor <code>docs/data/stats.json</code> a obsahuje validni JSON.</p>
+      <p class="hero-text">Zkontroluj soubor <code>docs/data/stats.json</code>.</p>
       <p class="champ-meta">${error.message}</p>
     `;
     playerGrid.append(message);
