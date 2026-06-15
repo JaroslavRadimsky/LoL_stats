@@ -75,7 +75,7 @@ Ukázkový config:
 {
   "title": "Naše Flex statistiky",
   "match_count": 20,
-  "queue": 440,
+  "history_scan_count": 20,
   "players": [
     {
       "display_name": "Ja",
@@ -106,11 +106,7 @@ Podporované `platform` hodnoty v tomto projektu:
 - `tw2`
 - `vn2`
 
-`queue` je volitelné. Například:
-
-- `420` = Ranked Solo/Duo
-- `440` = Ranked Flex
-- `400` = Normal Draft
+`history_scan_count` je volitelné. Použije se jako záloha pro nové nebo experimentální fronty, kdy Riot matchlist endpoint nevrátí nic pro konkrétní `queue`, ale zápasy jsou dostupné v nefiltrované historii. Bez nastavení se skenuje posledních 20 her; pokud ARAM: Mayhem nevidíš a víš, že je mezi staršími hrami, zvyš třeba na `100` nebo `200`.
 
 ## GitHub nasazení
 

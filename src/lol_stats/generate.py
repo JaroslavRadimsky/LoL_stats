@@ -69,6 +69,7 @@ EXCLUDED_TOP_AUGMENT_NAMES = {
     "level augments",
     "replace augment",
 }
+MATCHLIST_PAGE_SIZE = 100
 
 
 def safe_div(numerator: float, denominator: float) -> float:
@@ -104,6 +105,9 @@ def load_config(config_path: Path) -> dict[str, Any]:
     config["match_count"] = int(config.get("match_count", 100))
     if config["match_count"] <= 0:
         raise ValueError("'match_count' must be a positive integer.")
+    config["history_scan_count"] = int(config.get("history_scan_count", min(config["match_count"], 20)))
+    if config["history_scan_count"] <= 0:
+        raise ValueError("'history_scan_count' must be a positive integer.")
     return config
 
 
@@ -154,9 +158,17 @@ class RiotApiClient:
         url = f"https://{platform}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/{puuid}"
         return self._request(url)
 
-    def get_match_ids(self, region: str, puuid: str, *, count: int, queue: int | None = None) -> list[str]:
+    def get_match_ids(
+        self,
+        region: str,
+        puuid: str,
+        *,
+        count: int,
+        queue: int | None = None,
+        start: int = 0,
+    ) -> list[str]:
         url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
-        params: dict[str, Any] = {"start": 0, "count": count}
+        params: dict[str, Any] = {"start": start, "count": count}
         if queue:
             params["queue"] = queue
         return self._request(url, params=params)
@@ -181,6 +193,32 @@ def match_end_timestamp(match: dict[str, Any]) -> int:
     return int(match.get("info", {}).get("gameEndTimestamp", 0))
 
 
+def collect_match_ids(
+    client: RiotApiClient,
+    region: str,
+    puuid: str,
+    *,
+    count: int,
+    queue: int | None = None,
+) -> list[str]:
+    match_ids: list[str] = []
+    seen_ids: set[str] = set()
+
+    for start in range(0, count, MATCHLIST_PAGE_SIZE):
+        page_size = min(MATCHLIST_PAGE_SIZE, count - start)
+        page_ids = client.get_match_ids(region, puuid, count=page_size, queue=queue, start=start)
+        for match_id in page_ids:
+            if match_id in seen_ids:
+                continue
+            seen_ids.add(match_id)
+            match_ids.append(match_id)
+
+        if len(page_ids) < page_size:
+            break
+
+    return match_ids
+
+
 def collect_mode_matches(
     client: RiotApiClient,
     region: str,
@@ -188,13 +226,30 @@ def collect_mode_matches(
     *,
     queue_ids: list[int],
     match_count: int,
+    history_scan_count: int | None = None,
 ) -> list[dict[str, Any]]:
     candidate_ids: set[str] = set()
     for queue_id in queue_ids:
-        for match_id in client.get_match_ids(region, puuid, count=match_count, queue=queue_id):
+        for match_id in collect_match_ids(client, region, puuid, count=match_count, queue=queue_id):
             candidate_ids.add(match_id)
 
-    matches = [client.get_match(region, match_id) for match_id in candidate_ids]
+    if candidate_ids:
+        matches = [client.get_match(region, match_id) for match_id in candidate_ids]
+    else:
+        matches = []
+        scanned_ids = collect_match_ids(
+            client,
+            region,
+            puuid,
+            count=history_scan_count or match_count,
+        )
+        for match_id in scanned_ids:
+            match = client.get_match(region, match_id)
+            if match.get("info", {}).get("queueId") in queue_ids:
+                matches.append(match)
+                if len(matches) >= match_count:
+                    break
+
     matches.sort(key=match_end_timestamp, reverse=True)
     return matches[:match_count]
 
@@ -529,6 +584,7 @@ def fetch_live_data(
                 account["puuid"],
                 queue_ids=queue_ids,
                 match_count=config["match_count"],
+                history_scan_count=config["history_scan_count"],
             )
             mode_matches[mode] = matches
             for match in matches:

@@ -1,7 +1,7 @@
 {
   "title": "Naše LoL statistiky",
   "match_count": 20,
-  "queue": 440,
+  "history_scan_count": 20,
   "players": [
     {
       "display_name": "Ja",
@@ -17,4 +17,3 @@
     }
   ]
 }
-
