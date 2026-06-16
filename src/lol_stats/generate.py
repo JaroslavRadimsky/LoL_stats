@@ -35,7 +35,7 @@ PLATFORM_TO_REGION = {
 }
 
 MODE_QUEUES = {
-    "aram": [2400],
+    "aram": [2400, 450],
     "arena": [1750],
 }
 

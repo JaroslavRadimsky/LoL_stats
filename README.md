@@ -108,6 +108,8 @@ Podporované `platform` hodnoty v tomto projektu:
 
 `history_scan_count` je volitelné. Použije se jako záloha pro nové nebo experimentální fronty, kdy Riot matchlist endpoint nevrátí nic pro konkrétní `queue`, ale zápasy jsou dostupné v nefiltrované historii. Bez nastavení se skenuje posledních 20 her; pokud ARAM: Mayhem nevidíš a víš, že je mezi staršími hrami, zvyš třeba na `100` nebo `200`.
 
+ARAM pohled bere Riot fronty `2400` (ARAM: Mayhem) i `450` (ARAM), protože Riot API pro některé účty nevrací žádné zápasy přes `queue=2400`, zatímco ARAM historie je dostupná přes `queue=450`.
+
 ## GitHub nasazení
 
 Repo už obsahuje workflow v `.github/workflows/deploy-pages.yml`.

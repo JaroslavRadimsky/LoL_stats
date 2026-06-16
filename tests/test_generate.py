@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from lol_stats.generate import collect_mode_matches, is_top_augment_candidate
+from lol_stats.generate import MODE_QUEUES, collect_mode_matches, is_top_augment_candidate
 
 
 class TopAugmentFilterTests(unittest.TestCase):
@@ -56,6 +56,9 @@ class FakeRiotClient:
 
 
 class GenerateTests(unittest.TestCase):
+    def test_aram_mode_includes_standard_aram_queue(self) -> None:
+        self.assertEqual(MODE_QUEUES["aram"], [2400, 450])
+
     def test_collect_mode_matches_scans_unfiltered_history_when_queue_filter_is_empty(self) -> None:
         client = FakeRiotClient()
 
